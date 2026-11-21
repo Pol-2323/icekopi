@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1A1817" id="theme-color-meta">
+    <title>Aroastotle Cafe | Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root, [data-theme="dark"] {
+            --bg-color: #1A1817; --surface-color: #242220; --surface-elevated: #2E2B28;
+            --text-primary: #F5F5F0; --text-secondary: #A0A0A0;
+            --accent-gold: #C5A059; --accent-gold-bright: #E5C580; --accent-gold-dim: rgba(197, 160, 89, 0.1);
+            --border-color: rgba(255, 255, 255, 0.06); --danger: #D9534F; --success: #4CAF50;
+            --overlay-bg: rgba(0, 0, 0, 0.7); --shadow-lg: 0 -10px 40px rgba(0, 0, 0, 0.5);
+            --cart-shadow: 0 8px 24px rgba(197, 160, 89, 0.4);
+        }
+        [data-theme="light"] {
+            --bg-color: #FAF7F2; --surface-color: #FFFFFF; --surface-elevated: #FFFFFF;
+            --text-primary: #1A1817; --text-secondary: #6B6B6B;
+            --accent-gold: #A8823E; --accent-gold-bright: #C9A160; --accent-gold-dim: rgba(168, 130, 62, 0.12);
+            --border-color: rgba(0, 0, 0, 0.08); --danger: #C0392B; --success: #2E7D32;
+            --overlay-bg: rgba(0, 0, 0, 0.4); --shadow-lg: 0 -10px 40px rgba(0, 0, 0, 0.15);
+            --cart-shadow: 0 8px 24px rgba(168, 130, 62, 0.35);
+        }
+        :root {
+            --font-heading: 'Playfair Display', serif; --font-body: 'Montserrat', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg-color); color: var(--text-primary); font-family: var(--font-body); line-height: 1.5; overflow-x: hidden; padding-bottom: 120px; -webkit-font-smoothing: antialiased; transition: background-color 0.5s ease, color 0.5s ease; }
+        body.no-scroll { overflow: hidden; }
+        body.theme-transitioning * { transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important; }
+
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-bright)); width: 0%; z-index: 9999; transition: width 0.1s linear; box-shadow: 0 0 10px var(--accent-gold); }
+
+        #loader { position: fixed; inset: 0; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        #loader .loader-brand { font-family: var(--font-heading); font-size: 3rem; font-style: italic; color: var(--text-primary); opacity: 0; animation: loaderFade 1.2s ease forwards 0.2s; }
+        #loader .loader-line { width: 0; height: 1px; background: var(--accent-gold); margin: 15px 0; animation: loaderLine 1s ease forwards 0.6s; }
+        #loader .loader-sub { font-size: 0.7rem; letter-spacing: 0.5em; color: var(--accent-gold); text-transform: uppercase; opacity: 0; animation: loaderFade 1s ease forwards 0.9s; }
+        @keyframes loaderFade { to { opacity: 1; } }
+        @keyframes loaderLine { to { width: 80px; } }
+
+        #main-header { text-align: center; padding: 40px 20px 20px; position: relative; z-index: 10; transition: var(--transition-smooth); }
+        .logo-container { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .brand-name { font-family: var(--font-heading); font-size: 3rem; font-weight: 400; font-style: italic; color: var(--text-primary); letter-spacing: -1px; margin-bottom: -5px; transition: var(--transition-smooth); cursor: pointer; user-select: none; position: relative; }
+        .brand-sub { font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.5em; color: var(--accent-gold); text-transform: uppercase; font-weight: 500; margin-left: 0.5em; }
+
+        /* BRAND NAME ANIMATION */
+        .brand-name .letter { display: inline-block; transition: color 0.3s ease; will-change: transform; }
+        .brand-name.animating .letter {
+            animation: letterWave 1.15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: calc(var(--i) * 0.055s);
+        }
+        @keyframes letterWave {
+            0%   { transform: translateY(0) rotate(0) scale(1); color: var(--text-primary); text-shadow: none; }
+            30%  { transform: translateY(-16px) rotate(-3deg) scale(1.18); color: var(--accent-gold-bright); text-shadow: 0 0 24px var(--accent-gold), 0 0 48px var(--accent-gold-dim), 0 4px 12px rgba(0,0,0,0.4); }
+            55%  { transform: translateY(2px) rotate(2deg) scale(1.05); color: var(--accent-gold); text-shadow: 0 0 16px var(--accent-gold-dim); }
+            75%  { transform: translateY(-4px) rotate(-1deg) scale(1.02); color: var(--accent-gold-bright); }
+            100% { transform: translateY(0) rotate(0) scale(1); color: var(--text-primary); text-shadow: none; }
+        }
+        .brand-name::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(100deg, transparent 30%, var(--accent-gold-bright) 50%, transparent 70%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            opacity: 0; pointer-events: none; background-size: 250% 100%; background-position: -50% 0;
+            mix-blend-mode: screen;
+        }
+        .brand-name.animating::after { animation: shimmerSweep 1.15s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes shimmerSweep {
+            0% { background-position: -50% 0; opacity: 0; }
+            20% { opacity: 1; } 80% { opacity: 1; }
+            100% { background-position: 150% 0; opacity: 0; }
+        }
+        .gold-particle {
+            position: fixed; width: var(--size, 5px); height: var(--size, 5px);
+            background: radial-gradient(circle, var(--accent-gold-bright) 0%, var(--accent-gold) 60%, transparent 100%);
+            border-radius: 50%; pointer-events: none; z-index: 9998;
+            box-shadow: 0 0 10px var(--accent-gold), 0 0 20px var(--accent-gold-dim);
+            animation: particleBurst 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: var(--delay, 0s);
+        }
+        @keyframes particleBurst {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            20% { transform: translate(calc(-50% + var(--dx) * 0.35), calc(-50% + var(--dy) * 0.35)) scale(1.4); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2); opacity: 0; }
+        }
+        .brand-ripple {
+            position: fixed; border: 2px solid var(--accent-gold); border-radius: 50%;
+            pointer-events: none; z-index: 9997; animation: rippleRing 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transform: translate(-50%, -50%); box-shadow: 0 0 20px var(--accent-gold-dim), inset 0 0 20px var(--accent-gold-dim);
+        }
+        @keyframes rippleRing {
+            0% { width: 0; height: 0; opacity: 1; border-width: 3px; }
+            100% { width: 340px; height: 340px; opacity: 0; border-width: 0.5px; }
+        }
+
+        .header-actions { position: absolute; top: 50%; right: 20px; transform: translateY(-50%); display: flex; gap: 6px; }
+        .icon-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-smooth); position: relative; overflow: hidden; }
+        .icon-btn:hover, .icon-btn:active { border-color: var(--accent-gold); color: var(--accent-gold); transform: scale(1.08); }
+        .icon-btn svg { width: 15px; height: 15px; transition: var(--transition-spring); }
+        #theme-toggle .sun-icon { display: none; } #theme-toggle .moon-icon { display: block; }
+        [data-theme="light"] #theme-toggle .sun-icon { display: block; } [data-theme="light"] #theme-toggle .moon-icon { display: none; }
+        #lang-toggle { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; }
+        #sound-toggle .sound-off-icon { display: none; }
+        #sound-toggle.muted .sound-off-icon { display: block; }
+        #sound-toggle.muted .sound-on-icon { display: none; }
+
+        #music-toggle .music-on-icon { display: block; }
+        #music-toggle .music-off-icon { display: none; }
+        #music-toggle.muted .music-on-icon { display: none; }
+        #music-toggle.muted .music-off-icon { display: block; }
+        #music-toggle.muted { color: var(--text-secondary); border-color: var(--border-color); opacity: 0.5; transition: color 0.35s ease, border-color 0.35s ease, opacity 0.35s ease, transform 0.35s ease; }
+        #music-toggle.muted:hover { color: var(--accent-gold); border-color: var(--accent-gold); opacity: 1; transform: scale(1.08); }
+        #music-toggle.playing { border-color: var(--accent-gold); color: var(--accent-gold); opacity: 1; animation: musicPulse 2s ease-in-out infinite; transition: color 0.35s ease, border-color 0.35s ease, opacity 0.35s ease; }
+        #music-toggle.playing:hover { transform: scale(1.08); box-shadow: 0 0 20px var(--accent-gold-dim); }
+        @keyframes musicPulse { 0%, 100% { box-shadow: 0 0 0 0 var(--accent-gold-dim); } 50% { box-shadow: 0 0 0 8px transparent; } }
+
+        #main-header.scrolled { padding: 12px 20px; background: color-mix(in srgb, var(--bg-color) 95%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-color); }
+        #main-header.scrolled .brand-name { font-size: 1.8rem; } #main-header.scrolled .brand-sub { font-size: 0.55rem; }
+        #main-header.scrolled .header-actions { transform: translateY(-50%) scale(0.85); }
+
+        .table-badge { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: var(--accent-gold-dim); border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 0.65rem; font-weight: 600; padding: 3px 10px; border-radius: 10px; white-space: nowrap; margin-top: 10px; opacity: 0; transition: var(--transition-smooth); }
+        .table-badge.show { opacity: 1; }
+
+        #install-banner { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), padding 0.4s ease; padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        #install-banner.show { max-height: 100px; padding-top: 10px; }
+        .install-content { display: flex; align-items: center; gap: 12px; background: var(--surface-color); border: 1px solid var(--accent-gold); border-radius: 12px; padding: 12px 16px; }
+        .install-text { flex: 1; font-size: 0.8rem; color: var(--text-secondary); }
+        .install-text strong { color: var(--text-primary); display: block; font-size: 0.85rem; margin-bottom: 2px; }
+        .install-btn { background: var(--accent-gold); color: var(--bg-color); border: none; padding: 8px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); }
+        .install-btn:hover { transform: scale(1.05); }
+        .install-dismiss { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 4px; display: flex; }
+        .install-dismiss svg { width: 14px; height: 14px; }
+
+        #search-wrapper { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1); padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        #search-wrapper.open { max-height: 80px; }
+        .search-input-container { position: relative; margin: 10px 0 5px; }
+        .search-input { width: 100%; background: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 14px 40px 14px 45px; border-radius: 12px; font-family: var(--font-body); font-size: 0.9rem; outline: none; transition: var(--transition-smooth); }
+        .search-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-dim); }
+        .search-input::placeholder { color: var(--text-secondary); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
+        .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 5px; display: none; }
+        .search-clear.visible { display: block; }
+
+        #recent-strip { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1); padding: 0 20px; max-width: 600px; margin: 0 auto; }
+        #recent-strip.show { max-height: 90px; padding: 12px 20px 0; }
+        .recent-label { font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+        .recent-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .recent-scroll::-webkit-scrollbar { display: none; }
+        .recent-chip { background: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 7px 14px; border-radius: 20px; font-size: 0.78rem; white-space: nowrap; cursor: pointer; font-family: var(--font-body); }
+        .recent-chip:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .recent-chip:active { transform: scale(0.95); }
+
+        #category-nav { position: sticky; top: 0; z-index: 100; background-color: var(--bg-color); border-bottom: 1px solid var(--border-color); }
+        .nav-scroll-container { display: flex; overflow-x: auto; gap: 22px; padding: 0 20px; scroll-behavior: smooth; scrollbar-width: none; }
+        .nav-scroll-container::-webkit-scrollbar { display: none; }
+        .nav-tab { background: none; border: none; color: var(--text-secondary); font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; padding: 18px 0; white-space: nowrap; cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px; }
+        .nav-tab:hover { color: var(--text-primary); } .nav-tab.active { color: var(--accent-gold); }
+        .nav-tab .fav-count { background: var(--accent-gold); color: var(--bg-color); font-size: 0.6rem; padding: 1px 6px; border-radius: 8px; font-weight: 600; }
+        .nav-tab::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent-gold); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
+        .nav-tab.active::after { transform: scaleX(1); transform-origin: left; }
+
+        #menu-container { padding: 20px; max-width: 600px; margin: 0 auto; min-height: 50vh; }
+        .menu-section { display: none; }
+        .menu-section.active { display: block; animation: sectionIn 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        @keyframes sectionIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .section-title { font-family: var(--font-heading); font-size: 1.6rem; color: var(--accent-gold); font-weight: 400; font-style: italic; }
+        .size-headers { display: flex; gap: 15px; font-size: 0.6rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-color); cursor: pointer; animation: itemIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) backwards; position: relative; }
+        @keyframes itemIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .item-name { transition: var(--transition-smooth); }
+        .item-info { flex: 1; padding-right: 10px; }
+        .item-name { font-family: var(--font-body); font-size: 1rem; font-weight: 400; color: var(--text-primary); margin-bottom: 2px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .item-note { font-size: 0.72rem; color: var(--text-secondary); font-style: italic; margin-top: 4px; display: block; line-height: 1.4; }
+        .item-meta { display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 0.7rem; color: var(--text-secondary); }
+        .item-meta .stars-mini { color: var(--accent-gold); letter-spacing: -1px; }
+        .pop-badge { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-bright)); color: var(--bg-color); font-size: 0.55rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; letter-spacing: 0.8px; text-transform: uppercase; }
+        .pop-badge::before { content: '🔥 '; }
+        .item-actions { display: flex; align-items: center; gap: 12px; }
+        .item-prices { display: flex; gap: 15px; min-width: 110px; justify-content: flex-end; }
+        .price { font-family: var(--font-body); font-size: 0.9rem; color: var(--accent-gold); font-weight: 500; width: 30px; text-align: right; }
+        .price.single { width: auto; min-width: 40px; }
+        .fav-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 6px; display: flex; align-items: center; }
+        .fav-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+        .fav-btn.active { color: var(--accent-gold); } .fav-btn.active svg { fill: var(--accent-gold); }
+        .menu-item.sold-out { opacity: 0.35; pointer-events: none; }
+        .menu-item.sold-out .item-name { text-decoration: line-through; text-decoration-color: var(--text-secondary); color: var(--text-secondary); }
+        .menu-item.sold-out .price { color: var(--text-secondary); }
+
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .empty-state svg { width: 48px; height: 48px; stroke: var(--text-secondary); opacity: 0.4; margin-bottom: 15px; }
+        .empty-state h3 { font-family: var(--font-heading); font-size: 1.2rem; font-style: italic; color: var(--text-primary); margin-bottom: 6px; font-weight: 400; }
+        .empty-state p { font-size: 0.85rem; }
+
+        .addons-wrapper { padding: 0 20px; max-width: 600px; margin: 0 auto 40px; }
+        details.addons { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+        details.addons summary { padding: 18px 20px; font-family: var(--font-heading); font-size: 1.15rem; color: var(--accent-gold); font-style: italic; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        details.addons summary::-webkit-details-marker { display: none; }
+        details.addons summary::after { content: '+'; font-size: 1.4rem; font-weight: 300; color: var(--text-secondary); transition: transform 0.3s ease; }
+        details[open].addons summary::after { transform: rotate(45deg); color: var(--accent-gold); }
+        .addons-content { padding: 0 20px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .addon-item { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-primary); padding-bottom: 8px; border-bottom: 1px dashed var(--border-color); }
+        .addon-price { color: var(--accent-gold); font-weight: 500; }
+
+        .sheet-overlay { position: fixed; inset: 0; background: var(--overlay-bg); backdrop-filter: blur(4px); z-index: 500; opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s ease; }
+        .sheet-overlay.open { opacity: 1; visibility: visible; }
+        .bottom-sheet, .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface-elevated); border-radius: 24px 24px 0 0; z-index: 501; max-height: 90vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1); box-shadow: var(--shadow-lg); padding-bottom: 20px; }
+        .bottom-sheet.open, .cart-drawer.open { transform: translateY(0); }
+        .sheet-handle { width: 40px; height: 4px; background: var(--border-color); border-radius: 2px; margin: 12px auto 8px; }
+        .sheet-content, .cart-content { padding: 15px 24px 24px; max-width: 600px; margin: 0 auto; }
+        .sheet-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 15px; }
+        .sheet-title { font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; color: var(--text-primary); font-weight: 400; line-height: 1.2; }
+        .sheet-subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; display: block; }
+        .sheet-close { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; padding: 5px; flex-shrink: 0; transition: var(--transition-smooth); }
+        .sheet-close:hover { color: var(--text-primary); transform: rotate(90deg); }
+        .sheet-close svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .sheet-group { margin-bottom: 22px; }
+        .sheet-label { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 10px; font-weight: 600; }
+        .pill-group { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 10px 16px; border-radius: 24px; font-family: var(--font-body); font-size: 0.8rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 80px; }
+        .pill:hover { border-color: var(--accent-gold); color: var(--text-primary); }
+        .pill.active { background: var(--accent-gold); color: var(--bg-color); border-color: var(--accent-gold); font-weight: 500; }
+        .pill small { font-size: 0.65rem; opacity: 0.75; } .pill.active small { opacity: 0.9; }
+
+        .addon-check { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+        .addon-check:hover { border-color: var(--accent-gold); }
+        .addon-check.active { border-color: var(--accent-gold); background: var(--accent-gold-dim); }
+        .addon-check-name { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--text-primary); }
+        .check-box { width: 18px; height: 18px; border: 1.5px solid var(--text-secondary); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .addon-check.active .check-box { background: var(--accent-gold); border-color: var(--accent-gold); }
+        .check-box svg { width: 12px; height: 12px; stroke: var(--bg-color); stroke-width: 3; opacity: 0; }
+        .addon-check.active .check-box svg { opacity: 1; }
+        .addon-check-price { font-size: 0.85rem; color: var(--accent-gold); font-weight: 500; }
+
+        .notes-textarea { width: 100%; background: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px 14px; border-radius: 10px; font-family: var(--font-body); font-size: 0.85rem; resize: none; outline: none; min-height: 60px; }
+        .notes-textarea:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-dim); }
+        .notes-textarea::placeholder { color: var(--text-secondary); }
+
+        .rating-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-top: 20px; }
+        .rating-label { font-size: 0.85rem; color: var(--text-primary); }
+        .stars { display: flex; gap: 4px; }
+        .star-btn { background: none; border: none; padding: 2px; cursor: pointer; color: var(--text-secondary); }
+        .star-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+        .star-btn.active { color: var(--accent-gold); } .star-btn.active svg { fill: var(--accent-gold); }
+        .rating-info { font-size: 0.7rem; color: var(--text-secondary); margin-top: 6px; text-align: right; }
+
+        .quantity-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-top: 20px; }
+        .qty-label { font-size: 0.9rem; color: var(--text-primary); }
+        .qty-controls { display: flex; align-items: center; gap: 14px; }
+        .qty-btn { width: 34px; height: 34px; border-radius: 50%; background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .qty-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .qty-value { font-size: 1rem; font-weight: 500; min-width: 20px; text-align: center; }
+        .sheet-footer { display: flex; gap: 12px; padding-top: 20px; align-items: center; }
+        .total-display { flex: 1; }
+        .total-label { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 2px; }
+        .total-value { font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent-gold); font-style: italic; font-weight: 600; }
+
+        .btn-primary { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-bright)); color: var(--bg-color); border: none; padding: 15px 24px; border-radius: 14px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+        .cart-title { font-family: var(--font-heading); font-size: 1.6rem; font-style: italic; color: var(--accent-gold); margin-bottom: 20px; font-weight: 400; }
+        .table-input-group { margin-bottom: 20px; }
+        .table-input { width: 100%; background: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-primary); padding: 14px 16px; border-radius: 12px; font-family: var(--font-body); font-size: 0.9rem; outline: none; text-align: center; letter-spacing: 2px; font-weight: 600; }
+        .table-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-dim); }
+        .table-input::placeholder { color: var(--text-secondary); letter-spacing: 1px; font-weight: 400; }
+        .cart-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border-color); gap: 12px; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-size: 0.95rem; color: var(--text-primary); margin-bottom: 3px; }
+        .cart-item-customization { font-size: 0.72rem; color: var(--text-secondary); line-height: 1.4; }
+        .cart-item-note { font-size: 0.7rem; color: var(--accent-gold); font-style: italic; margin-top: 4px; }
+        .cart-item-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+        .cart-item-price { font-size: 0.9rem; color: var(--accent-gold); font-weight: 500; }
+        .cart-item-qty { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+        .cart-qty-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); width: 22px; height: 22px; border-radius: 50%; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .cart-qty-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 15px; }
+        .cart-total-label { font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); font-weight: 600; }
+        .cart-total-value { font-family: var(--font-heading); font-size: 1.7rem; color: var(--accent-gold); font-style: italic; font-weight: 600; }
+        .cart-actions { display: flex; gap: 10px; }
+        .btn-secondary { flex: 1; background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 14px; border-radius: 14px; font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; }
+        .btn-secondary:hover { border-color: var(--danger); color: var(--danger); }
+        .btn-primary.full { flex: 2; justify-content: center; }
+
+        #cart-fab { position: fixed; bottom: 24px; right: 20px; background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-bright)); color: var(--bg-color); border: none; width: 58px; height: 58px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--cart-shadow); z-index: 200; transform: scale(0) translateY(20px); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease; }
+        #cart-fab.visible { transform: scale(1) translateY(0); }
+        #cart-fab.visible:hover { transform: scale(1.12) translateY(-5px); box-shadow: 0 16px 40px rgba(197, 160, 89, 0.6), 0 0 0 10px rgba(197, 160, 89, 0.08); }
+        #cart-fab.visible:hover svg { transform: rotate(-8deg) scale(1.05); }
+        #cart-fab svg { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+        #cart-fab.visible:hover .cart-badge { transform: scale(1.2) translateY(-3px); }
+        #cart-fab .cart-badge { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); position: absolute; top: -4px; right: -4px; background: var(--danger); color: white; font-size: 0.7rem; font-weight: 600; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 5px; border: 2px solid var(--bg-color); }
+        #cart-fab:active { transform: scale(0.92) translateY(0); }
+
+        #back-to-top { position: fixed; bottom: 24px; left: 20px; background: var(--surface-color); border: 1px solid var(--border-color); color: var(--accent-gold); width: 46px; height: 46px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 200; opacity: 0; visibility: hidden; transform: translateY(10px); transition: var(--transition-spring); }
+        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { border-color: var(--accent-gold); transform: translateY(-3px); }
+        #back-to-top svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+        #toast-container { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+        .toast { background: var(--surface-elevated); color: var(--text-primary); padding: 12px 22px; border-radius: 30px; font-size: 0.85rem; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+        .toast.gold { border-color: var(--accent-gold); }
+        .toast svg { width: 14px; height: 14px; stroke: var(--accent-gold); stroke-width: 2.5; fill: none; }
+        .toast.fade-out { animation: toastOut 0.3s ease forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(-10px); } }
+
+        /* ORDER BAR */
+        #order-bar { position: fixed; top: 12px; left: 12px; right: 12px; max-width: 600px; margin: 0 auto; background: var(--surface-elevated); border: 1px solid var(--accent-gold); border-radius: 22px; z-index: 850; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(197, 160, 89, 0.15); transform: translateY(-200%) scale(0.9); opacity: 0; transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease; overflow: hidden; pointer-events: none; }
+        #order-bar.show { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+        #order-bar.dismiss { transform: translateY(-200%) scale(0.9); opacity: 0; }
+
+        .order-bar-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; user-select: none; position: relative; }
+        .order-bar-header:active { background: var(--accent-gold-dim); }
+
+        .order-bar-status { width: 38px; height: 38px; border-radius: 50%; background: var(--accent-gold-dim); border: 1.5px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+        .order-bar-status svg { width: 18px; height: 18px; stroke: var(--accent-gold); stroke-width: 2.5; fill: none; }
+        .order-bar-status.pulsing::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--accent-gold); animation: orderPulse 1.8s ease-out infinite; }
+        @keyframes orderPulse { 0% { transform: scale(0.85); opacity: 0.9; } 100% { transform: scale(1.5); opacity: 0; } }
+        .order-bar-status.complete { background: var(--accent-gold); border-color: var(--accent-gold); }
+        .order-bar-status.complete svg { stroke: var(--bg-color); }
+
+        .order-bar-info { flex: 1; min-width: 0; }
+        .order-bar-title { font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .order-bar-title .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold); animation: liveBlink 1.4s ease-in-out infinite; }
+        @keyframes liveBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .order-bar-sub { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .order-toggle-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--bg-color); border: 1.5px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; padding: 0; position: relative; overflow: hidden; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease; }
+        .order-toggle-btn:active { transform: scale(0.88); background: var(--accent-gold-dim); }
+        .order-toggle-btn .qr-icon { width: 22px; height: 22px; transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .order-toggle-btn .qr-icon rect { fill: var(--accent-gold); }
+        #order-bar.expanded .order-toggle-btn .qr-icon { transform: rotate(180deg); }
+        .order-toggle-btn .chevron { position: absolute; width: 12px; height: 12px; stroke: var(--accent-gold); stroke-width: 2.5; fill: none; opacity: 0; transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); transform: translateY(-2px); }
+        #order-bar.expanded .order-toggle-btn .chevron { opacity: 1; transform: translateY(0) rotate(180deg); }
+        .order-toggle-btn .ripple { position: absolute; inset: 0; border-radius: 50%; background: var(--accent-gold); opacity: 0; transform: scale(0); pointer-events: none; }
+        .order-toggle-btn.clicked .ripple { animation: btnRipple 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
+        @keyframes btnRipple { 0% { opacity: 0.5; transform: scale(0); } 100% { opacity: 0; transform: scale(2.5); } }
+
+        .order-bar-body { max-height: 0; overflow: hidden; transition: max-height 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.4s ease; padding: 0 16px; }
+        #order-bar.expanded .order-bar-body { max-height: 380px; padding: 0 16px 16px; }
+        .order-bar-divider { height: 1px; background: var(--border-color); margin-bottom: 16px; opacity: 0; transition: opacity 0.3s ease 0.15s; }
+        #order-bar.expanded .order-bar-divider { opacity: 1; }
+
+        .order-timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; padding: 0 8px; margin-bottom: 14px; }
+        .order-timeline::before { content: ''; position: absolute; top: 13px; left: 18%; right: 18%; height: 2px; background: var(--border-color); z-index: 0; }
+        .order-progress-line { position: absolute; top: 13px; left: 18%; height: 2px; background: var(--accent-gold); z-index: 1; transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1); width: 0; box-shadow: 0 0 8px var(--accent-gold); }
+        .order-step { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; z-index: 2; flex: 1; cursor: pointer; padding: 4px 0; border-radius: 12px; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .order-step:hover { background: var(--accent-gold-dim); }
+        .order-step:active .order-step-dot { transform: scale(1.25); }
+        .order-step.complete, .order-step.active { cursor: default; }
+        .order-step.complete:hover, .order-step.active:hover { background: transparent; }
+
+        .order-step-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-color); border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center; transition: var(--transition-spring); }
+        .order-step-dot svg { width: 12px; height: 12px; stroke: var(--text-secondary); stroke-width: 2.5; fill: none; }
+        .order-step.active .order-step-dot { border-color: var(--accent-gold); background: var(--accent-gold-dim); transform: scale(1.15); }
+        .order-step.active .order-step-dot svg { stroke: var(--accent-gold); }
+        .order-step.complete .order-step-dot { background: var(--accent-gold); border-color: var(--accent-gold); }
+        .order-step.complete .order-step-dot svg { stroke: var(--bg-color); }
+        .order-step-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); font-weight: 600; }
+        .order-step.active .order-step-label, .order-step.complete .order-step-label { color: var(--accent-gold); }
+
+        .order-eta { text-align: center; font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 6px; min-height: 16px; }
+        .order-eta strong { color: var(--accent-gold); }
+
+        .order-staff-hint { text-align: center; font-size: 0.6rem; color: var(--text-secondary); opacity: 0.6; margin-bottom: 14px; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .order-staff-hint svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+        .order-bar-actions { display: flex; gap: 10px; }
+        .order-action-primary { flex: 1; background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-bright)); color: var(--bg-color); border: none; padding: 12px; border-radius: 12px; font-family: var(--font-body); font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+        .order-action-secondary { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 12px 16px; border-radius: 12px; font-family: var(--font-body); font-size: 0.82rem; font-weight: 500; cursor: pointer; }
+        .order-action-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        body.has-order-bar { padding-top: 0; }
+
+        .bottom-fade { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%); pointer-events: none; z-index: 50; }
+
+        .receipt-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+        .receipt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .receipt-id { font-family: var(--font-heading); font-style: italic; font-size: 1.05rem; color: var(--accent-gold); }
+        .receipt-date { font-size: 0.68rem; color: var(--text-secondary); }
+        .receipt-details { font-size: 0.72rem; color: var(--text-secondary); line-height: 1.5; }
+        .receipt-details .receipt-total { color: var(--accent-gold); font-weight: 600; }
+        .receipt-items { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-color); font-size: 0.7rem; color: var(--text-secondary); line-height: 1.6; }
+        .receipt-empty { text-align: center; padding: 30px 10px; color: var(--text-secondary); font-size: 0.82rem; font-style: italic; }
+
+        .admin-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .admin-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold-dim); border: 1.5px solid var(--accent-gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .admin-icon svg { width: 20px; height: 20px; stroke: var(--accent-gold); stroke-width: 2; fill: none; }
+        .admin-header-text { flex: 1; }
+        .admin-title { font-family: var(--font-heading); font-size: 1.3rem; font-style: italic; color: var(--accent-gold); font-weight: 400; }
+        .admin-subtitle { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+        .stat-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 12px; text-align: center; }
+        .stat-value { font-family: var(--font-heading); font-size: 1.6rem; color: var(--accent-gold); font-style: italic; font-weight: 600; line-height: 1; }
+        .stat-label { font-size: 0.62rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; font-weight: 600; }
+        .admin-section { margin-bottom: 24px; }
+        .admin-section-title { font-size: 0.7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .admin-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); gap: 12px; }
+        .admin-row-name { font-size: 0.85rem; color: var(--text-primary); flex: 1; }
+        .admin-row-sub { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+        .admin-toggle { position: relative; width: 40px; height: 22px; background: var(--border-color); border-radius: 22px; cursor: pointer; flex-shrink: 0; border: none; padding: 0; }
+        .admin-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: var(--text-secondary); border-radius: 50%; transition: var(--transition-smooth); }
+        .admin-toggle.on { background: var(--accent-gold-dim); }
+        .admin-toggle.on::after { background: var(--accent-gold); transform: translateX(18px); }
+        .admin-actions { display: flex; flex-direction: column; gap: 10px; }
+        .admin-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); padding: 13px 16px; border-radius: 12px; font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .admin-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .admin-btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+        .admin-btn svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+        /* ============================================
+           QR CODE GENERATOR
+           ============================================ */
+        .qr-section-card {
+            background: linear-gradient(135deg, rgba(197,160,89,0.06), transparent);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+        }
+        .qr-input-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        .qr-table-input {
+            flex: 1; background: var(--surface-color); border: 1px solid var(--border-color);
+            color: var(--text-primary); padding: 12px 14px; border-radius: 10px;
+            font-family: var(--font-body); font-size: 0.85rem; outline: none;
+            text-align: center; letter-spacing: 2px; font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .qr-table-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-dim); }
+        .qr-table-input::placeholder { letter-spacing: 1px; font-weight: 400; color: var(--text-secondary); }
+        .qr-generate-btn {
+            background: var(--accent-gold); color: var(--bg-color); border: none;
+            padding: 12px 18px; border-radius: 10px; font-family: var(--font-body);
+            font-size: 0.78rem; font-weight: 700; cursor: pointer;
+            letter-spacing: 0.5px; transition: var(--transition-spring); white-space: nowrap;
+        }
+        .qr-generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--accent-gold-dim); }
+
+        .qr-preview {
+            display: none; text-align: center; padding: 18px;
+            background: var(--surface-color); border: 1px solid var(--accent-gold);
+            border-radius: 14px; margin-top: 14px;
+            animation: sectionIn 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .qr-preview.show { display: block; }
+        .qr-preview img {
+            width: 200px; height: 200px; border-radius: 10px;
+            margin-bottom: 12px; background: white; padding: 8px;
+            box-shadow: 0 8px 24px rgba(197, 160, 89, 0.25);
+        }
+        .qr-preview .qr-caption { font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
+        .qr-preview .qr-caption strong { color: var(--accent-gold); display: block; font-family: var(--font-heading); font-style: italic; font-size: 1.05rem; margin-bottom: 4px; font-weight: 400; }
+        .qr-actions { display: flex; gap: 8px; }
+        .qr-action-btn {
+            flex: 1; padding: 11px 12px; border-radius: 10px;
+            font-family: var(--font-body); font-size: 0.76rem; font-weight: 500;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 5px; transition: var(--transition-smooth);
+        }
+        .qr-action-btn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .qr-action-primary { background: var(--accent-gold); color: var(--bg-color); border: none; }
+        .qr-action-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px var(--accent-gold-dim); }
+        .qr-action-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border-color); }
+        .qr-action-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        .qr-hint { font-size: 0.68rem; color: var(--text-secondary); margin-top: 10px; font-style: italic; opacity: 0.75; text-align: center; }
+
+        /* HOVER ANIMATIONS */
+        .menu-item { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, padding 0.35s ease, border-radius 0.3s ease, border-bottom-color 0.3s ease; }
+        .menu-item:hover { transform: translateX(6px); background: linear-gradient(90deg, transparent 0%, var(--accent-gold-dim) 100%); padding-left: 12px; padding-right: 8px; border-radius: 10px; border-bottom-color: transparent; }
+        .menu-item:hover .item-name { color: var(--accent-gold); letter-spacing: 0.5px; }
+        .menu-item:hover .price { transform: scale(1.1); text-shadow: 0 0 12px var(--accent-gold-dim); }
+        .price { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), text-shadow 0.3s ease; }
+        .menu-item:hover .fav-btn svg { stroke: var(--accent-gold); transform: scale(1.15); }
+        .fav-btn svg { transition: var(--transition-spring); }
+        .section-title { transition: letter-spacing 0.5s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease, text-shadow 0.3s ease; }
+        .section-title:hover { letter-spacing: 2px; text-shadow: 0 0 20px var(--accent-gold-dim); }
+        .nav-tab { transition: color 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .nav-tab:hover { transform: translateY(-2px); }
+        .icon-btn svg { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .icon-btn:hover svg { transform: rotate(12deg) scale(1.15); }
+        .recent-chip { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+        .recent-chip:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 6px 16px var(--accent-gold-dim); }
+        .cart-item { transition: background 0.25s ease, padding 0.3s ease, border-radius 0.3s ease; border-radius: 8px; }
+        .cart-item:hover { background: var(--accent-gold-dim); padding-left: 10px; padding-right: 10px; }
+        .addon-item { transition: padding-left 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, color 0.3s ease; }
+        .addon-item:hover { padding-left: 8px; border-bottom-color: var(--accent-gold); color: var(--accent-gold); }
+        .addon-check { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, background 0.3s ease; }
+        .addon-check:hover { transform: translateX(4px); }
+        .pill { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, background 0.3s ease, color 0.3s ease; }
+        .pill:hover { transform: translateY(-2px) scale(1.04); }
+        .star-btn { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease; }
+        .star-btn:hover { transform: scale(1.3) rotate(-8deg); }
+        .receipt-card { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease; }
+        .receipt-card:hover { transform: translateY(-3px); border-color: var(--accent-gold); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35); }
+        .admin-row { transition: background 0.25s ease, padding 0.3s ease, border-radius 0.3s ease; border-radius: 6px; }
+        .admin-row:hover { background: var(--accent-gold-dim); padding-left: 10px; padding-right: 10px; }
+        .stat-card { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease; }
+        .stat-card:hover { transform: translateY(-4px); border-color: var(--accent-gold); box-shadow: 0 8px 20px var(--accent-gold-dim); }
+        .admin-btn { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, color 0.3s ease; }
+        .admin-btn:hover { transform: translateY(-2px); }
+        details.addons { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+        details.addons:hover { border-color: var(--accent-gold); box-shadow: 0 6px 20px var(--accent-gold-dim); }
+        .order-step { transition: background 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .order-step:not(.complete):not(.active):hover { transform: translateY(-2px); }
+
+        /* SCROLL REVEAL */
+        .scroll-reveal { opacity: 0; transform: translateY(35px); transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); will-change: opacity, transform; }
+        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 400px) {
+            .item-prices { min-width: 100px; gap: 10px; }
+            .price { width: 25px; font-size: 0.85rem; }
+            .size-headers { font-size: 0.55rem; gap: 10px; }
+            .brand-name { font-size: 2.5rem; }
+            .addons-content { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .stat-value { font-size: 1.3rem; }
+            .order-step-label { font-size: 0.55rem; }
+            .order-toggle-btn { width: 38px; height: 38px; }
+            .order-toggle-btn .qr-icon { width: 20px; height: 20px; }
+            .qr-preview img { width: 160px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+
+<audio id="bg-music" loop preload="auto">
+    <source src="bgm.mp3" type="audio/mpeg">
+</audio>
+
+<div id="scroll-progress"></div>
+<div id="loader"><div class="loader-brand">Aroastotle</div><div class="loader-line"></div><div class="loader-sub">C A F E</div></div>
+
+<div id="order-bar" aria-live="polite">
+    <div class="order-bar-header" id="order-bar-header">
+        <div class="order-bar-status" id="order-bar-status">
+            <svg id="order-bar-status-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div class="order-bar-info">
+            <div class="order-bar-title" id="order-bar-title">Order Confirmed</div>
+            <div class="order-bar-sub" id="order-bar-sub">AR-0000 • Table 0 • ₱0</div>
+        </div>
+        <button class="order-toggle-btn" id="order-toggle-btn" aria-label="Toggle order details">
+            <span class="ripple"></span>
+            <svg class="qr-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="8" height="8" rx="1.5"/>
+                <rect x="4.5" y="4.5" width="3" height="3" rx="0.5" fill="var(--bg-color)"/>
+                <rect x="14" y="2" width="8" height="8" rx="1.5"/>
+                <rect x="16.5" y="4.5" width="3" height="3" rx="0.5" fill="var(--bg-color)"/>
+                <rect x="2" y="14" width="8" height="8" rx="1.5"/>
+                <rect x="4.5" y="16.5" width="3" height="3" rx="0.5" fill="var(--bg-color)"/>
+                <rect x="14" y="14" width="3" height="3" rx="0.5"/>
+                <rect x="19" y="14" width="3" height="3" rx="0.5"/>
+                <rect x="14" y="19" width="3" height="3" rx="0.5"/>
+                <rect x="19" y="19" width="3" height="3" rx="0.5"/>
+            </svg>
+            <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+    </div>
+    <div class="order-bar-body" id="order-bar-body">
+        <div class="order-bar-divider"></div>
+        <div class="order-timeline" id="order-timeline">
+            <div class="order-progress-line" id="order-progress-line"></div>
+            <div class="order-step" data-step="1">
+                <div class="order-step-dot"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <span class="order-step-label">Received</span>
+            </div>
+            <div class="order-step" data-step="2">
+                <div class="order-step-dot"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                <span class="order-step-label">Preparing</span>
+            </div>
+            <div class="order-step" data-step="3">
+                <div class="order-step-dot"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+                <span class="order-step-label">Ready</span>
+            </div>
+        </div>
+        <div class="order-eta" id="order-eta">Your order has been received</div>
+        <div class="order-staff-hint" id="order-staff-hint">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path></svg>
+            <span>Staff: tap a step to update status</span>
+        </div>
+        <div class="order-bar-actions">
+            <button class="order-action-secondary" id="order-dismiss-btn">Hide</button>
+            <button class="order-action-primary" id="order-done-btn">Got it!</button>
+        </div>
+    </div>
+</div>
+
+<header id="main-header">
+    <div class="logo-container">
+        <h1 class="brand-name" id="brand-logo">Aroastotle</h1>
+        <span class="brand-sub">C A F E</span>
+        <span class="table-badge" id="table-badge"></span>
+        <div class="header-actions">
+            <button class="icon-btn" id="share-btn" aria-label="Share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            </button>
+            <button class="icon-btn" id="music-toggle" aria-label="Toggle music" title="Background Music">
+                <svg class="music-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <svg class="music-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                    <line x1="2" y1="2" x2="22" y2="22" stroke-width="2.5"></line>
+                </svg>
+            </button>
+            <button class="icon-btn" id="sound-toggle" aria-label="Toggle sound">
+                <svg class="sound-on-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <svg class="sound-off-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            </button>
+            <button class="icon-btn" id="lang-toggle" aria-label="Toggle language">EN</button>
+            <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+            </button>
+            <button class="icon-btn" id="search-toggle" aria-label="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div id="install-banner">
+    <div class="install-content">
+        <div class="install-text"><strong data-i18n="installTitle">Install Aroastotle</strong><span data-i18n="installSub">Add to your home screen for quick access.</span></div>
+        <button class="install-btn" id="install-btn" data-i18n="install">Install</button>
+        <button class="install-dismiss" id="install-dismiss"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </div>
+</div>
+
+<div id="search-wrapper">
+    <div class="search-input-container">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-input" id="search-input" placeholder="Search the menu..." data-i18n-placeholder="searchPlaceholder">
+        <button class="search-clear" id="search-clear"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </div>
+</div>
+
+<div id="recent-strip" class="scroll-reveal">
+    <div class="recent-label" data-i18n="recentlyViewed">Recently Viewed</div>
+    <div class="recent-scroll" id="recent-scroll"></div>
+</div>
+
+<nav id="category-nav"><div class="nav-scroll-container" id="nav-tabs"></div></nav>
+<main id="menu-container"></main>
+
+<div class="addons-wrapper scroll-reveal">
+    <details class="addons">
+        <summary data-i18n="addons">Add-ons</summary>
+        <div class="addons-content" id="addons-container"></div>
+    </details>
+</div>
+
+<button id="back-to-top" aria-label="Back to top"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
+
+<button id="cart-fab" aria-label="View cart">
+    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+    <span class="cart-badge" id="cart-badge">0</span>
+</button>
+
+<div class="sheet-overlay" id="sheet-overlay"></div>
+<div class="bottom-sheet" id="item-sheet"><div class="sheet-handle"></div><div class="sheet-content" id="item-sheet-content"></div></div>
+<div class="cart-drawer" id="cart-drawer"><div class="sheet-handle"></div><div class="cart-content" id="cart-content"></div></div>
+<div class="cart-drawer" id="admin-modal"><div class="sheet-handle"></div><div class="cart-content" id="admin-content"></div></div>
+
+<div id="toast-container"></div>
+<div class="bottom-fade"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const TRANSLATIONS = {
+        en: {
+            searchPlaceholder: 'Search the menu...', recentlyViewed: 'Recently Viewed', addons: 'Add-ons',
+            installTitle: 'Install Aroastotle', installSub: 'Add to your home screen for quick access.', install: 'Install',
+            favorites: 'Favorites', noFavorites: 'No favorites yet', noFavoritesSub: 'Tap the heart on any item to save it here.',
+            noResults: 'No results', nothingFound: 'Nothing found', tryDifferent: 'Try a different search term.', results: 'Results',
+            selectSize: 'Select Size', specialInstructions: 'Special Instructions', notePlaceholder: 'E.g. less sugar, extra ice...',
+            quantity: 'Quantity', total: 'Total', addToOrder: 'Add to Order', yourOrder: 'Your Order', tableNumber: 'Enter Table Number',
+            emptyCart: 'Your cart is empty', emptyCartSub: 'Add items from the menu to get started.', clear: 'Clear', confirmOrder: 'Confirm Order',
+            orderReady: 'Order Ready', orderCopied: 'Your order summary has been copied to clipboard.',
+            pasteInChat: "Paste it in our chat and we'll prepare it right away.", done: 'Done',
+            rateItem: 'Rate this item', ratingsCount: 'ratings', addToFavorites: 'Added to favorites', removedFromFavorites: 'Removed from favorites',
+            addedToOrder: 'added to order', orderCleared: 'Order cleared', tableRequired: 'Please enter your table number',
+            darkMode: 'Dark mode', lightMode: 'Light mode', adminPanel: 'Admin Panel', adminSub: 'Menu insights & control',
+            totalViews: 'Views', totalOrders: 'Orders', avgRating: 'Avg Rating', topItems: 'Top Ordered Items',
+            availability: 'Item Availability', dataManagement: 'Data Management', resetAll: 'Reset All Data', resetConfirm: 'Confirm Reset',
+            exportData: 'Export Analytics', dataReset: 'All data reset', analyticsExported: 'Analytics exported',
+            languageChanged: 'Language: English', noData: 'No data yet',
+            soundOn: 'Sound on', soundOff: 'Sound off', shared: 'Menu link copied',
+            statusReceived: 'Received', statusPreparing: 'Preparing', statusReady: 'Ready',
+            statusDone: 'Got it!', orderNumber: 'Order',
+            orderConfirmed: 'Order Confirmed', orderInProgress: 'Preparing your order', orderReadyTitle: 'Order Ready!',
+            receipts: 'Receipts', noReceipts: 'No past orders yet.', hide: 'Hide', orderHidden: 'Order hidden',
+            etaReceived: 'Your order has been received', etaPreparing: 'We are preparing your order', etaReady: 'Your order is ready!',
+            staffHint: 'Staff: tap a step to update status',
+            musicOn: 'Music on', musicOff: 'Music off', orderCompleted: 'Order completed — thank you!'
+        },
+        tl: {
+            searchPlaceholder: 'Maghanap sa menu...', recentlyViewed: 'Kamakailang Tiningnan', addons: 'Mga Dagdag',
+            installTitle: 'I-install ang Aroastotle', installSub: 'Idagdag sa home screen.', install: 'I-install',
+            favorites: 'Mga Paborito', noFavorites: 'Wala pang paborito', noFavoritesSub: 'I-tap ang puso para i-save.',
+            noResults: 'Walang resulta', nothingFound: 'Walang nahanap', tryDifferent: 'Subukan ang ibang salita.', results: 'Mga Resulta',
+            selectSize: 'Pumili ng Sukat', specialInstructions: 'Espesyal na Tagubilin', notePlaceholder: 'Hal. kaunting asukal...',
+            quantity: 'Dami', total: 'Kabuuan', addToOrder: 'Idagdag sa Order', yourOrder: 'Iyong Order', tableNumber: 'Ilagay ang Numero ng Mesa',
+            emptyCart: 'Walang laman ang cart', emptyCartSub: 'Magdagdag ng item.', clear: 'Burahin', confirmOrder: 'Kumpirmahin',
+            orderReady: 'Handa na', orderCopied: 'Nakopya na sa clipboard.',
+            pasteInChat: 'I-paste ito sa aming chat.', done: 'Tapos',
+            rateItem: 'I-rate ang item', ratingsCount: 'mga rating', addToFavorites: 'Naidagdag sa paborito', removedFromFavorites: 'Inalis sa paborito',
+            addedToOrder: 'naidagdag sa order', orderCleared: 'Nabura ang order', tableRequired: 'Pakilagay ang numero ng mesa',
+            darkMode: 'Dark mode', lightMode: 'Light mode', adminPanel: 'Admin Panel', adminSub: 'Insights ng menu',
+            totalViews: 'Views', totalOrders: 'Orders', avgRating: 'Avg Rating', topItems: 'Pinaka-Order',
+            availability: 'Availability', dataManagement: 'Pamahalaan Data', resetAll: 'I-reset Lahat', resetConfirm: 'Kumpirmahin Reset',
+            exportData: 'I-export Analytics', dataReset: 'Na-reset lahat', analyticsExported: 'Na-export analytics',
+            languageChanged: 'Wika: Tagalog', noData: 'Walang data pa',
+            soundOn: 'Tunog on', soundOff: 'Tunog off', shared: 'Nakopya ang link',
+            statusReceived: 'Natanggap', statusPreparing: 'Inihahanda', statusReady: 'Handa',
+            statusDone: 'Sige!', orderNumber: 'Order',
+            orderConfirmed: 'Kumpirmado', orderInProgress: 'Inihahanda ang order', orderReadyTitle: 'Handa na!',
+            receipts: 'Mga Resibo', noReceipts: 'Wala pang order.', hide: 'Itago', orderHidden: 'Nakatago',
+            etaReceived: 'Natanggap na ang order', etaPreparing: 'Inihahanda na', etaReady: 'Handa na!',
+            staffHint: 'Staff: i-tap ang step',
+            musicOn: 'Tunog on', musicOff: 'Tunog off', orderCompleted: 'Tapos na — salamat!'
+        }
+    };
+
+    const defaultMenuData = [
+        { id: 'espresso', title: 'Espresso Based', titleTl: 'Espresso Based', type: 'drink', items: [
+            { name: 'Classic Americano', prices: [79, 89, 99] }, { name: 'Cafe Latte', prices: [109, 119, 129] },
+            { name: 'Spanish Latte', prices: [125, 135, 159] }, { name: 'White Mocha', prices: [125, 135, 159] },
+            { name: 'Mochannella', prices: [125, 135, 159] }, { name: 'French Vanilla Latte', prices: [125, 135, 159] },
+            { name: 'Signature Coffee', prices: [129, 139, 159] }, { name: 'Caramel Macchiato', prices: [125, 135, 159] },
+            { name: 'Biscoff Latte', prices: [125, 135, 159] }, { name: 'Macadamia Latte', prices: [125, 135, 159] },
+            { name: 'Sea Salt Latte', prices: [null, null, 159] }, { name: 'Tiramisu Latte', prices: [null, null, 159] },
+            { name: 'Dirty Matcha', prices: [null, null, 159] }
+        ]},
+        { id: 'matcha', title: 'Matcha Series', titleTl: 'Matcha Series', type: 'drink', items: [
+            { name: 'Matcha Latte', prices: [99, 119, 159] }, { name: 'Spanish Matcha', prices: [119, 139, 159] },
+            { name: 'Sea Salt Matcha', prices: [null, null, 159] }, { name: 'Strawberry Matcha', prices: [null, null, 159] },
+            { name: 'Blueberry Matcha', prices: [null, null, 159] }
+        ]},
+        { id: 'refreshments', title: 'Refreshments', titleTl: 'Refreshments', type: 'single', items: [
+            { name: 'Green Apple Lemonade', price: 89 }, { name: 'Blue Lemonade', price: 89 },
+            { name: 'Lemon Mint Mojito', price: 89 }, { name: 'Sangria', price: 129 }
+        ]},
+        { id: 'iced-tea', title: 'Iced Tea', titleTl: 'Iced Tea', type: 'single', items: [
+            { name: 'Green Apple Iced Tea', price: 89 }, { name: 'Honey Lemon Iced Tea', price: 89 },
+            { name: 'Lychee Iced Tea', price: 89 }, { name: 'Passion Fruit Iced Tea', price: 89 }
+        ]},
+        { id: 'frappes', title: 'Frappes', titleTl: 'Frappes', type: 'single', items: [
+            { name: 'Java Chip Frappe', price: 159 }, { name: 'Biscoff Frappe', price: 159 }, { name: 'Matcha Frappe', price: 159 },
+            { name: 'Oreo Frappe', price: 159 }, { name: 'Strawberry Frappe', price: 159 }, { name: 'Tripple Chocolate Frappe', price: 159 }
+        ]},
+        { id: 'croffles', title: 'Croffles & Churros', titleTl: 'Croffles & Churros', type: 'single', items: [
+            { name: 'Golden Plain Honey', price: 149, available: false }, { name: 'Biscoff Bliss', price: 149, available: false },
+            { name: 'Nutella Indulgence', price: 149, available: false }, { name: 'Matcha', price: 139, available: false },
+            { name: 'Strawberry Bliss', price: 139 }, { name: 'Cheese Paradox', price: 149 },
+            { name: 'Golden Dust Churros', price: 159, note: 'Choose 2 dippings: Chocolate, White Chocolate, Caramel' }
+        ]},
+        { id: 'appetizers', title: 'Appetizers', titleTl: 'Appetizers', type: 'single', items: [
+            { name: 'Golden Cheese Fries', price: 79 }, { name: 'Smoky BBQ Fries', price: 79 }, { name: 'Chili BBQ Fries', price: 79 },
+            { name: 'Sour Cream Fries', price: 79 }, { name: 'Sweet Corn Fries', price: 79 }, { name: 'Chicken Poppers N Fries', price: 189 },
+            { name: 'Chicken Golden Bites', price: 119 }, { name: 'Snowy Cheese Sticks', price: 89 }
+        ]}
+    ];
+
+    const addOnsData = [
+        { name: 'Espresso', price: 30 }, { name: 'Syrup/Sauce', price: 25 }, { name: 'Drizzle', price: 25 },
+        { name: 'Whipped Cream', price: 30 }, { name: 'Jams', price: 25 }, { name: 'Oat Milk', price: 40 }, { name: 'Skimmed Milk', price: 25 }
+    ];
+
+    const SIZE_OPTIONS = [
+        { label: 'Hot', sub: '8oz', index: 0 }, { label: 'Hot', sub: '12oz', index: 1 }, { label: 'Iced', sub: '16oz', index: 2 }
+    ];
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTable = urlParams.get('table');
+
+    const loadJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || JSON.stringify(d)); } catch { return d; } };
+    const soundPref = localStorage.getItem('aro-sound') !== 'off';
+
+    const state = {
+        currentCategory: 'espresso',
+        favorites: loadJSON('aro-favs', []),
+        cart: loadJSON('aro-cart', []),
+        tableNumber: urlTable || localStorage.getItem('aro-table') || '',
+        theme: localStorage.getItem('aro-theme') || 'dark',
+        language: localStorage.getItem('aro-lang') || 'en',
+        soundEnabled: soundPref,
+        musicEnabled: localStorage.getItem('aro-music') !== 'off',
+        musicStarted: false,
+        ratings: loadJSON('aro-ratings', {}),
+        analytics: loadJSON('aro-analytics', { views: 0, orders: 0, itemOrders: {}, itemViews: {} }),
+        availability: loadJSON('aro-availability', {}),
+        recentlyViewed: loadJSON('aro-recent', []),
+        orderHistory: loadJSON('aro-order-history', []),
+        searchQuery: '', selectedItem: null, selectedCategory: null, selectedSizeIndex: null,
+        selectedAddons: [], selectedNote: '', selectedRating: 0, quantity: 1,
+        deferredPrompt: null, logoTapCount: 0, logoTapTimer: null,
+        currentOrder: loadJSON('aro-current-order', null),
+        orderBarExpanded: false, orderBarHidden: false
+    };
+
+    if (state.currentOrder && state.currentOrder.stage === undefined) state.currentOrder.stage = 1;
+
+    const menuData = defaultMenuData.map(cat => ({
+        ...cat,
+        items: cat.items.map(item => ({
+            ...item,
+            available: state.availability[item.name] !== undefined ? state.availability[item.name] : item.available
+        }))
+    }));
+
+    const t = key => TRANSLATIONS[state.language][key] || key;
+
+    const $ = id => document.getElementById(id);
+    const navTabsContainer = $('nav-tabs'), menuContainer = $('menu-container'), addonsContainer = $('addons-container');
+    const header = $('main-header'), loader = $('loader'), searchWrapper = $('search-wrapper');
+    const searchInput = $('search-input'), searchToggle = $('search-toggle'), searchClear = $('search-clear');
+    const overlay = $('sheet-overlay'), itemSheet = $('item-sheet'), itemSheetContent = $('item-sheet-content');
+    const cartDrawer = $('cart-drawer'), cartContent = $('cart-content');
+    const adminModal = $('admin-modal'), adminContent = $('admin-content');
+    const cartFab = $('cart-fab'), cartBadge = $('cart-badge'), toastContainer = $('toast-container');
+    const scrollProgress = $('scroll-progress'), backToTop = $('back-to-top');
+    const themeToggle = $('theme-toggle'), langToggle = $('lang-toggle'), soundToggle = $('sound-toggle');
+    const musicToggle = $('music-toggle'), bgMusic = $('bg-music'), shareBtn = $('share-btn');
+    const themeColorMeta = $('theme-color-meta'), installBanner = $('install-banner'), brandLogo = $('brand-logo');
+    const recentStrip = $('recent-strip'), recentScroll = $('recent-scroll'), tableBadge = $('table-badge');
+
+    const orderBar = $('order-bar');
+    const orderBarHeader = $('order-bar-header');
+    const orderBarStatus = $('order-bar-status');
+    const orderBarStatusIcon = $('order-bar-status-icon');
+    const orderBarTitle = $('order-bar-title');
+    const orderBarSub = $('order-bar-sub');
+    const orderToggleBtn = $('order-toggle-btn');
+    const orderProgressLine = $('order-progress-line');
+    const orderEta = $('order-eta');
+    const orderStaffHint = $('order-staff-hint');
+    const orderDismissBtn = $('order-dismiss-btn');
+    const orderDoneBtn = $('order-done-btn');
+    const orderTimeline = $('order-timeline');
+
+    // SOUND ENGINE
+    let audioCtx = null;
+    function initAudio() {
+        if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch {} }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    }
+    function playSound(type) {
+        if (!state.soundEnabled) return;
+        initAudio(); if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        switch (type) {
+            case 'click': osc.frequency.setValueAtTime(900, now); gain.gain.setValueAtTime(0.04, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06); osc.start(now); osc.stop(now + 0.07); break;
+            case 'pop': osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(1200, now + 0.08); gain.gain.setValueAtTime(0.05, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12); osc.start(now); osc.stop(now + 0.13); break;
+            case 'success': osc.frequency.setValueAtTime(523, now); osc.frequency.setValueAtTime(659, now + 0.1); osc.frequency.setValueAtTime(784, now + 0.2); gain.gain.setValueAtTime(0.06, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45); osc.start(now); osc.stop(now + 0.45); break;
+            case 'error': osc.frequency.setValueAtTime(220, now); osc.frequency.exponentialRampToValueAtTime(140, now + 0.15); gain.gain.setValueAtTime(0.06, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2); osc.start(now); osc.stop(now + 0.2); break;
+            case 'open': osc.frequency.setValueAtTime(500, now); osc.frequency.exponentialRampToValueAtTime(750, now + 0.12); gain.gain.setValueAtTime(0.035, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18); osc.start(now); osc.stop(now + 0.18); break;
+            case 'toggle': osc.frequency.setValueAtTime(700, now); osc.frequency.exponentialRampToValueAtTime(1000, now + 0.06); gain.gain.setValueAtTime(0.045, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1); osc.start(now); osc.stop(now + 0.11); break;
+        }
+    }
+    function toggleSound() {
+        state.soundEnabled = !state.soundEnabled;
+        localStorage.setItem('aro-sound', state.soundEnabled ? 'on' : 'off');
+        soundToggle.classList.toggle('muted', !state.soundEnabled);
+        if (state.soundEnabled) { playSound('success'); showToast(t('soundOn')); }
+        else { showToast(t('soundOff'), false); }
+    }
+
+    // MUSIC ENGINE
+    function toggleMusic() {
+        state.musicEnabled = !state.musicEnabled;
+        localStorage.setItem('aro-music', state.musicEnabled ? 'on' : 'off');
+        musicToggle.classList.toggle('muted', !state.musicEnabled);
+        if (state.musicEnabled) {
+            bgMusic.play().then(() => { musicToggle.classList.add('playing'); showToast(t('musicOn')); })
+                .catch(() => showToast('Tap to enable music', false));
+        } else {
+            bgMusic.pause();
+            musicToggle.classList.remove('playing');
+            showToast(t('musicOff'), false);
+        }
+        playSound('pop'); haptic();
+    }
+    function startMusicOnFirstInteraction() {
+        if (state.musicStarted || !state.musicEnabled) return;
+        state.musicStarted = true;
+        bgMusic.volume = 0.35;
+        bgMusic.play().then(() => { musicToggle.classList.add('playing'); }).catch(() => {});
+    }
+
+    function haptic(ms = 10) { if (navigator.vibrate) navigator.vibrate(ms); }
+
+    function saveState() {
+        localStorage.setItem('aro-favs', JSON.stringify(state.favorites));
+        localStorage.setItem('aro-cart', JSON.stringify(state.cart));
+        localStorage.setItem('aro-table', state.tableNumber);
+        localStorage.setItem('aro-ratings', JSON.stringify(state.ratings));
+        localStorage.setItem('aro-analytics', JSON.stringify(state.analytics));
+        localStorage.setItem('aro-availability', JSON.stringify(state.availability));
+        localStorage.setItem('aro-recent', JSON.stringify(state.recentlyViewed));
+        localStorage.setItem('aro-order-history', JSON.stringify(state.orderHistory));
+        if (state.currentOrder) localStorage.setItem('aro-current-order', JSON.stringify(state.currentOrder));
+        else localStorage.removeItem('aro-current-order');
+    }
+
+    function showToast(message, gold = true) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${gold ? 'gold' : ''}`;
+        toast.innerHTML = `<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>${message}</span>`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => { toast.classList.add('fade-out'); setTimeout(() => toast.remove(), 300); }, 2200);
+    }
+
+    function applyLanguage(lang) {
+        state.language = lang;
+        localStorage.setItem('aro-lang', lang);
+        langToggle.textContent = lang === 'en' ? 'EN' : 'TL';
+        document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+        renderNavTabs(); renderMenuSections(); renderAddOns();
+        if (state.currentCategory === 'favorites') renderFavorites();
+        renderRecentlyViewed();
+        if (state.currentOrder) updateOrderBar();
+    }
+
+    function toggleLanguage() {
+        applyLanguage(state.language === 'en' ? 'tl' : 'en');
+        showToast(t('languageChanged')); playSound('pop'); haptic();
+    }
+
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        themeColorMeta.setAttribute('content', theme === 'dark' ? '#1A1817' : '#FAF7F2');
+        localStorage.setItem('aro-theme', theme); state.theme = theme;
+    }
+
+    function toggleTheme() {
+        const nt = state.theme === 'dark' ? 'light' : 'dark';
+        document.body.classList.add('theme-transitioning');
+        applyTheme(nt);
+        setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
+        haptic(); playSound('click');
+        showToast(nt === 'dark' ? t('darkMode') : t('lightMode'), false);
+    }
+
+    function isFavorite(name) { return state.favorites.includes(name); }
+    function toggleFavorite(name) {
+        const idx = state.favorites.indexOf(name);
+        if (idx > -1) { state.favorites.splice(idx, 1); showToast(t('removedFromFavorites'), false); }
+        else { state.favorites.push(name); showToast(t('addToFavorites')); playSound('pop'); }
+        saveState(); haptic(); updateFavCounts();
+    }
+
+    function updateFavCounts() {
+        const favTab = document.querySelector('[data-category="favorites"]');
+        if (favTab) {
+            const existing = favTab.querySelector('.fav-count');
+            if (existing) existing.remove();
+            if (state.favorites.length > 0) {
+                const badge = document.createElement('span');
+                badge.className = 'fav-count'; badge.textContent = state.favorites.length;
+                favTab.appendChild(badge);
+            }
+        }
+    }
+
+    function getItemPrice(item, category) {
+        if (category.type === 'drink') {
+            if (state.selectedSizeIndex !== null && item.prices[state.selectedSizeIndex] !== null) return item.prices[state.selectedSizeIndex];
+            for (let i = item.prices.length - 1; i >= 0; i--) if (item.prices[i] !== null) return item.prices[i];
+            return 0;
+        }
+        return item.price;
+    }
+
+    function getRating(name) {
+        const r = state.ratings[name];
+        if (!r || r.count === 0) return { avg: 0, count: 0, user: 0 };
+        return { avg: r.sum / r.count, count: r.count, user: r.user || 0 };
+    }
+
+    function getPopularItems() {
+        const io = state.analytics.itemOrders || {};
+        return Object.entries(io).sort((a, b) => b[1] - a[1]).slice(0, 3).filter(([_, c]) => c > 0).map(([n]) => n);
+    }
+
+    function trackView(name) {
+        state.analytics.views = (state.analytics.views || 0) + 1;
+        if (!state.analytics.itemViews) state.analytics.itemViews = {};
+        state.analytics.itemViews[name] = (state.analytics.itemViews[name] || 0) + 1;
+        state.recentlyViewed = [name, ...state.recentlyViewed.filter(n => n !== name)].slice(0, 8);
+        saveState(); renderRecentlyViewed();
+    }
+
+    function trackOrder(name, qty) {
+        state.analytics.orders = (state.analytics.orders || 0) + 1;
+        if (!state.analytics.itemOrders) state.analytics.itemOrders = {};
+        state.analytics.itemOrders[name] = (state.analytics.itemOrders[name] || 0) + qty;
+        saveState();
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    function observeScrollReveals() {
+        document.querySelectorAll('.scroll-reveal:not(.observed)').forEach(el => {
+            el.classList.add('observed'); revealObserver.observe(el);
+        });
+    }
+
+    // BRAND NAME ANIMATION
+    function splitBrandLetters() {
+        const text = brandLogo.textContent.trim();
+        brandLogo.innerHTML = '';
+        [...text].forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'letter';
+            span.style.setProperty('--i', i);
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            brandLogo.appendChild(span);
+        });
+    }
+
+    function playBrandAnimation() {
+        if (brandLogo.classList.contains('animating')) {
+            brandLogo.classList.remove('animating'); void brandLogo.offsetWidth;
+        }
+        brandLogo.classList.add('animating');
+        setTimeout(() => brandLogo.classList.remove('animating'), 1500);
+
+        const rect = brandLogo.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+
+        const count = 16;
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('span');
+            p.className = 'gold-particle';
+            const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+            const distance = 70 + Math.random() * 55;
+            p.style.setProperty('--dx', (Math.cos(angle) * distance) + 'px');
+            p.style.setProperty('--dy', (Math.sin(angle) * distance) + 'px');
+            p.style.setProperty('--size', (3 + Math.random() * 4) + 'px');
+            p.style.setProperty('--delay', (Math.random() * 0.15) + 's');
+            p.style.left = cx + 'px'; p.style.top = cy + 'px';
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 1700);
+        }
+
+        const ring = document.createElement('span');
+        ring.className = 'brand-ripple';
+        ring.style.left = cx + 'px'; ring.style.top = cy + 'px';
+        document.body.appendChild(ring);
+        setTimeout(() => ring.remove(), 1200);
+
+        playSound('success'); haptic(20);
+    }
+
+    // RENDER
+    function renderNavTabs() {
+        navTabsContainer.innerHTML = '';
+        menuData.forEach((cat) => {
+            const btn = document.createElement('button');
+            btn.className = `nav-tab ${state.currentCategory === cat.id ? 'active' : ''}`;
+            btn.dataset.category = cat.id;
+            btn.textContent = state.language === 'tl' && cat.titleTl ? cat.titleTl : cat.title;
+            navTabsContainer.appendChild(btn);
+        });
+        const favBtn = document.createElement('button');
+        favBtn.className = `nav-tab ${state.currentCategory === 'favorites' ? 'active' : ''}`;
+        favBtn.dataset.category = 'favorites';
+        favBtn.textContent = t('favorites');
+        navTabsContainer.appendChild(favBtn);
+        updateFavCounts();
+    }
+
+    function renderMenuSections() {
+        menuContainer.innerHTML = '';
+        menuData.forEach(category => {
+            const section = document.createElement('div');
+            section.className = `menu-section ${state.currentCategory === category.id ? 'active' : ''}`;
+            section.id = category.id;
+            section.innerHTML = buildSectionHTML(category);
+            menuContainer.appendChild(section);
+        });
+        const favSection = document.createElement('div');
+        favSection.className = 'menu-section';
+        favSection.id = 'favorites';
+        menuContainer.appendChild(favSection);
+        observeScrollReveals();
+    }
+
+    function buildSectionHTML(category) {
+        const title = state.language === 'tl' && category.titleTl ? category.titleTl : category.title;
+        let html = `<div class="section-header"><h2 class="section-title">${title}</h2>`;
+        if (category.type === 'drink') html += `<div class="size-headers"><span>Hot 8oz</span><span>Hot 12oz</span><span>Ice 16oz</span></div>`;
+        html += `</div>`;
+        category.items.forEach((item, i) => { html += buildItemHTML(item, category, i); });
+        return html;
+    }
+
+    function buildItemHTML(item, category, index) {
+        const isSoldOut = item.available === false;
+        const isFav = isFavorite(item.name);
+        const soldOutClass = isSoldOut ? 'sold-out' : '';
+        const delay = `style="animation-delay: ${index * 0.04}s"`;
+        const popular = getPopularItems();
+        const isPopular = popular.includes(item.name);
+        const rating = getRating(item.name);
+        let pricesHTML = '';
+        if (category.type === 'drink') item.prices.forEach(p => { pricesHTML += `<span class="price">${p === null ? '—' : p}</span>`; });
+        else pricesHTML = `<span class="price single">${item.price}</span>`;
+        const noteHTML = item.note ? `<span class="item-note">${item.note}</span>` : '';
+        const popHTML = isPopular ? `<span class="pop-badge">Popular</span>` : '';
+        let metaHTML = '';
+        if (rating.count > 0) {
+            const stars = '★'.repeat(Math.round(rating.avg)) + '☆'.repeat(5 - Math.round(rating.avg));
+            metaHTML = `<div class="item-meta"><span class="stars-mini">${stars}</span><span>${rating.avg.toFixed(1)} (${rating.count})</span></div>`;
+        }
+        return `<div class="menu-item ${soldOutClass}" data-item="${item.name}" data-cat="${category.id}" ${delay}>
+            <div class="item-info"><h3 class="item-name">${item.name} ${popHTML}</h3>${noteHTML}${metaHTML}</div>
+            <div class="item-actions"><div class="item-prices">${pricesHTML}</div>
+            <button class="fav-btn ${isFav ? 'active' : ''}" data-fav="${item.name}">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            </button></div></div>`;
+    }
+
+    function renderAddOns() {
+        addonsContainer.innerHTML = '';
+        addOnsData.forEach(a => {
+            const div = document.createElement('div');
+            div.className = 'addon-item';
+            div.innerHTML = `<span>${a.name}</span><span class="addon-price">+${a.price}</span>`;
+            addonsContainer.appendChild(div);
+        });
+    }
+
+    function renderRecentlyViewed() {
+        if (state.recentlyViewed.length === 0) { recentStrip.classList.remove('show'); return; }
+        recentStrip.classList.add('show');
+        recentScroll.innerHTML = state.recentlyViewed.map(name => {
+            const item = menuData.flatMap(c => c.items).find(i => i.name === name);
+            if (!item || item.available === false) return '';
+            return `<button class="recent-chip" data-recent="${name}">${name}</button>`;
+        }).join('');
+        recentScroll.querySelectorAll('.recent-chip').forEach(chip => chip.addEventListener('click', () => {
+            const name = chip.dataset.recent;
+            for (const cat of menuData) if (cat.items.find(i => i.name === name)) { openItemSheet(name, cat.id); break; }
+        }));
+    }
+
+    function renderFavorites() {
+        const favSection = document.getElementById('favorites');
+        const allItems = [];
+        menuData.forEach(cat => cat.items.forEach(item => { if (isFavorite(item.name)) allItems.push({ item, cat }); }));
+        if (allItems.length === 0) {
+            favSection.innerHTML = `<div class="section-header"><h2 class="section-title">${t('favorites')}</h2></div>
+                <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <h3>${t('noFavorites')}</h3><p>${t('noFavoritesSub')}</p></div>`;
+            return;
+        }
+        let html = `<div class="section-header"><h2 class="section-title">${t('favorites')}</h2></div>`;
+        allItems.forEach(({ item, cat }, i) => { html += buildItemHTML(item, cat, i); });
+        favSection.innerHTML = html;
+    }
+
+    function renderSearchResults(query) {
+        const q = query.toLowerCase().trim();
+        const searchSection = document.getElementById('search-results');
+        if (!q) {
+            if (searchSection) searchSection.remove();
+            document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+            const cur = document.getElementById(state.currentCategory);
+            if (cur) cur.classList.add('active');
+            return;
+        }
+        const results = [];
+        menuData.forEach(cat => cat.items.forEach(item => { if (item.name.toLowerCase().includes(q)) results.push({ item, cat }); }));
+        let existing = document.getElementById('search-results');
+        if (!existing) { existing = document.createElement('div'); existing.className = 'menu-section'; existing.id = 'search-results'; menuContainer.appendChild(existing); }
+        document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+        existing.classList.add('active');
+        if (results.length === 0) {
+            existing.innerHTML = `<div class="section-header"><h2 class="section-title">${t('noResults')}</h2></div>
+                <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <h3>${t('nothingFound')}</h3><p>${t('tryDifferent')}</p></div>`;
+            return;
+        }
+        let html = `<div class="section-header"><h2 class="section-title">${t('results')} (${results.length})</h2></div>`;
+        results.forEach(({ item, cat }, i) => { html += buildItemHTML(item, cat, i); });
+        existing.innerHTML = html;
+    }
+
+    function openItemSheet(itemName, catId) {
+        const category = menuData.find(c => c.id === catId);
+        if (!category) return;
+        const item = category.items.find(i => i.name === itemName);
+        if (!item || item.available === false) return;
+        state.selectedItem = item; state.selectedCategory = category;
+        state.quantity = 1; state.selectedAddons = []; state.selectedNote = '';
+        state.selectedRating = getRating(item.name).user || 0;
+        if (category.type === 'drink') {
+            state.selectedSizeIndex = item.prices.findIndex(p => p !== null);
+            if (state.selectedSizeIndex === -1) state.selectedSizeIndex = 0;
+        } else state.selectedSizeIndex = null;
+        trackView(item.name); renderItemSheet(); openSheet(itemSheet); playSound('open'); haptic();
+    }
+
+    function renderItemSheet() {
+        const item = state.selectedItem, cat = state.selectedCategory;
+        const basePrice = getItemPrice(item, cat);
+        const addonsTotal = state.selectedAddons.reduce((sum, name) => { const a = addOnsData.find(x => x.name === name); return sum + (a ? a.price : 0); }, 0);
+        const total = (basePrice + addonsTotal) * state.quantity;
+        const rating = getRating(item.name);
+        let sizeHTML = '';
+        if (cat.type === 'drink') {
+            sizeHTML = `<div class="sheet-group"><div class="sheet-label">${t('selectSize')}</div><div class="pill-group">
+                ${SIZE_OPTIONS.map(opt => {
+                    const price = item.prices[opt.index], disabled = price === null, active = state.selectedSizeIndex === opt.index;
+                    return `<button class="pill ${active ? 'active' : ''}" data-size="${opt.index}" ${disabled ? 'disabled style="opacity:0.3;pointer-events:none"' : ''}>${opt.label}<small>${opt.sub}</small><small>${price === null ? '—' : '₱' + price}</small></button>`;
+                }).join('')}</div></div>`;
+        }
+        const ratingInfo = rating.count > 0 ? `${rating.avg.toFixed(1)} ★ · ${rating.count} ${t('ratingsCount')}` : '';
+        itemSheetContent.innerHTML = `
+            <div class="sheet-header"><div><h2 class="sheet-title">${item.name}</h2>${item.note ? `<span class="sheet-subtitle">${item.note}</span>` : ''}</div>
+            <button class="sheet-close" id="sheet-close-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+            ${sizeHTML}
+            <div class="sheet-group"><div class="sheet-label">${t('addons')}</div>
+                ${addOnsData.map(a => {
+                    const active = state.selectedAddons.includes(a.name);
+                    return `<div class="addon-check ${active ? 'active' : ''}" data-addon="${a.name}"><div class="addon-check-name"><div class="check-box"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span>${a.name}</span></div><span class="addon-check-price">+${a.price}</span></div>`;
+                }).join('')}</div>
+            <div class="sheet-group"><div class="sheet-label">${t('specialInstructions')}</div><textarea class="notes-textarea" id="item-note" placeholder="${t('notePlaceholder')}">${state.selectedNote}</textarea></div>
+            <div class="rating-row"><span class="rating-label">${t('rateItem')}</span>
+                <div style="text-align:right"><div class="stars" id="stars-container">
+                    ${[1,2,3,4,5].map(n => `<button class="star-btn ${n <= state.selectedRating ? 'active' : ''}" data-star="${n}"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`).join('')}
+                </div>${ratingInfo ? `<div class="rating-info">${ratingInfo}</div>` : ''}</div></div>
+            <div class="quantity-row"><span class="qty-label">${t('quantity')}</span><div class="qty-controls">
+                <button class="qty-btn" id="qty-minus" ${state.quantity <= 1 ? 'disabled' : ''}>−</button><span class="qty-value">${state.quantity}</span><button class="qty-btn" id="qty-plus">+</button>
+            </div></div>
+            <div class="sheet-footer"><div class="total-display"><div class="total-label">${t('total')}</div><div class="total-value">₱${total}</div></div>
+                <button class="btn-primary" id="add-to-cart-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>${t('addToOrder')}</button>
+            </div>`;
+        attachSheetListeners();
+    }
+
+    function attachSheetListeners() {
+        itemSheetContent.querySelectorAll('.pill[data-size]').forEach(p => p.addEventListener('click', () => { state.selectedSizeIndex = parseInt(p.dataset.size); playSound('click'); haptic(); renderItemSheet(); }));
+        itemSheetContent.querySelectorAll('.addon-check').forEach(c => c.addEventListener('click', () => {
+            const name = c.dataset.addon, idx = state.selectedAddons.indexOf(name);
+            if (idx > -1) state.selectedAddons.splice(idx, 1); else state.selectedAddons.push(name);
+            playSound('click'); haptic(); renderItemSheet();
+        }));
+        itemSheetContent.querySelectorAll('.star-btn').forEach(s => s.addEventListener('click', () => {
+            state.selectedRating = parseInt(s.dataset.star);
+            const name = state.selectedItem.name;
+            const old = state.ratings[name] || { sum: 0, count: 0, user: 0 };
+            if (old.user > 0) { old.sum -= old.user; old.count -= 1; }
+            old.sum += state.selectedRating; old.count += 1; old.user = state.selectedRating;
+            state.ratings[name] = old;
+            saveState(); showToast(`Rated ${state.selectedRating} ★`); playSound('pop'); haptic(); renderItemSheet();
+        }));
+        const noteEl = document.getElementById('item-note');
+        if (noteEl) noteEl.addEventListener('input', e => { state.selectedNote = e.target.value; });
+        const minus = document.getElementById('qty-minus'), plus = document.getElementById('qty-plus');
+        if (minus) minus.addEventListener('click', () => { if (state.quantity > 1) { state.quantity--; playSound('click'); haptic(); renderItemSheet(); } });
+        if (plus) plus.addEventListener('click', () => { state.quantity++; playSound('click'); haptic(); renderItemSheet(); });
+        const close = document.getElementById('sheet-close-btn');
+        if (close) close.addEventListener('click', closeAllSheets);
+        const add = document.getElementById('add-to-cart-btn');
+        if (add) add.addEventListener('click', addToCart);
+    }
+
+    function addToCart() {
+        const item = state.selectedItem, cat = state.selectedCategory;
+        const basePrice = getItemPrice(item, cat);
+        const addonsTotal = state.selectedAddons.reduce((sum, name) => { const a = addOnsData.find(x => x.name === name); return sum + (a ? a.price : 0); }, 0);
+        const unitPrice = basePrice + addonsTotal;
+        let sizeLabel = '';
+        if (cat.type === 'drink' && state.selectedSizeIndex !== null) { const opt = SIZE_OPTIONS[state.selectedSizeIndex]; sizeLabel = `${opt.label} ${opt.sub}`; }
+        state.cart.push({ id: Date.now() + Math.random(), name: item.name, category: cat.title, size: sizeLabel, addons: [...state.selectedAddons], note: state.selectedNote.trim(), unitPrice, quantity: state.quantity });
+        trackOrder(item.name, state.quantity);
+        saveState(); updateCartBadge(); closeAllSheets();
+        showToast(`${item.name} ${t('addedToOrder')}`); playSound('success'); haptic(20);
+    }
+
+    function updateCartBadge() {
+        const tq = state.cart.reduce((sum, i) => sum + i.quantity, 0);
+        cartBadge.textContent = tq;
+        if (tq > 0) cartFab.classList.add('visible'); else cartFab.classList.remove('visible');
+    }
+
+    function renderCart() {
+        if (state.cart.length === 0) {
+            cartContent.innerHTML = `<h2 class="cart-title">${t('yourOrder')}</h2>
+                <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <h3>${t('emptyCart')}</h3><p>${t('emptyCartSub')}</p></div>`;
+            return;
+        }
+        const total = state.cart.reduce((sum, i) => sum + (i.unitPrice * i.quantity), 0);
+        cartContent.innerHTML = `
+            <h2 class="cart-title">${t('yourOrder')}</h2>
+            <div class="table-input-group"><input type="text" class="table-input" id="table-number" placeholder="${t('tableNumber')}" value="${state.tableNumber}" maxlength="10"></div>
+            ${state.cart.map(item => {
+                const cust = []; if (item.size) cust.push(item.size); if (item.addons.length) cust.push(item.addons.join(', '));
+                const c = cust.length ? cust.join(' • ') : '';
+                const n = item.note ? `Note: ${item.note}` : '';
+                return `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div>
+                    ${c ? `<div class="cart-item-customization">${c}</div>` : ''}${n ? `<div class="cart-item-note">${n}</div>` : ''}</div>
+                    <div class="cart-item-controls"><div class="cart-item-price">₱${item.unitPrice * item.quantity}</div>
+                    <div class="cart-item-qty"><button class="cart-qty-btn" data-action="dec" data-id="${item.id}">−</button><span>${item.quantity}</span><button class="cart-qty-btn" data-action="inc" data-id="${item.id}">+</button></div></div></div>`;
+            }).join('')}
+            <div class="cart-total-row"><span class="cart-total-label">${t('total')}</span><span class="cart-total-value">₱${total}</span></div>
+            <div class="cart-actions"><button class="btn-secondary" id="clear-cart-btn">${t('clear')}</button>
+                <button class="btn-primary full" id="checkout-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>${t('confirmOrder')}</button></div>`;
+        attachCartListeners();
+    }
+
+    function attachCartListeners() {
+        const ti = document.getElementById('table-number');
+        if (ti) ti.addEventListener('input', e => { state.tableNumber = e.target.value; saveState(); });
+        cartContent.querySelectorAll('.cart-qty-btn').forEach(btn => btn.addEventListener('click', () => {
+            const id = parseFloat(btn.dataset.id), action = btn.dataset.action;
+            const item = state.cart.find(i => i.id === id); if (!item) return;
+            if (action === 'inc') item.quantity++;
+            else { item.quantity--; if (item.quantity <= 0) state.cart = state.cart.filter(i => i.id !== id); }
+            saveState(); updateCartBadge(); renderCart(); playSound('click'); haptic();
+        }));
+        const cb = document.getElementById('clear-cart-btn');
+        if (cb) cb.addEventListener('click', () => { state.cart = []; saveState(); updateCartBadge(); renderCart(); showToast(t('orderCleared'), false); playSound('error'); haptic(); });
+        const ckb = document.getElementById('checkout-btn');
+        if (ckb) ckb.addEventListener('click', checkout);
+    }
+
+    function checkout() {
+        if (!state.tableNumber.trim()) {
+            showToast(t('tableRequired'), false); playSound('error'); haptic(30);
+            const ti = document.getElementById('table-number');
+            if (ti) { ti.focus(); ti.style.borderColor = 'var(--danger)'; setTimeout(() => ti.style.borderColor = '', 1500); }
+            return;
+        }
+        const total = state.cart.reduce((sum, i) => sum + (i.unitPrice * i.quantity), 0);
+        const orderId = 'AR-' + String(Date.now()).slice(-4);
+
+        let orderText = '☕ Aroastotle Cafe Order ☕\n';
+        orderText += `Order: ${orderId}\nTable: ${state.tableNumber}\n\n`;
+        state.cart.forEach(item => {
+            const cust = []; if (item.size) cust.push(item.size); if (item.addons.length) cust.push(item.addons.join(', '));
+            const c = cust.length ? ` (${cust.join(' • ')})` : '';
+            orderText += `• ${item.quantity}x ${item.name}${c} — ₱${item.unitPrice * item.quantity}\n`;
+            if (item.note) orderText += `   ↳ Note: ${item.note}\n`;
+        });
+        orderText += `\nTotal: ₱${total}`;
+
+        const cp = navigator.clipboard ? navigator.clipboard.writeText(orderText) : Promise.resolve().then(() => {
+            const ta = document.createElement('textarea'); ta.value = orderText;
+            document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+        });
+
+        cp.finally(() => {
+            state.currentOrder = { id: orderId, placedAt: Date.now(), stage: 1, total, table: state.tableNumber, items: [...state.cart] };
+            state.orderBarHidden = false;
+            saveState();
+            closeAllSheets();
+            updateOrderBar();
+            showOrderBar();
+            playSound('success'); haptic(30);
+        });
+    }
+
+    let orderBarAutoCollapseTimer = null;
+
+    function getOrderStage(order) { if (!order) return 0; return order.stage || 1; }
+
+    function showOrderBar() {
+        orderBar.classList.add('show');
+        document.body.classList.add('has-order-bar');
+        setOrderBarExpanded(true, true);
+    }
+
+    function hideOrderBar(dismiss = false) {
+        orderBar.classList.remove('show');
+        if (dismiss) orderBar.classList.add('dismiss');
+        document.body.classList.remove('has-order-bar');
+        if (orderBarAutoCollapseTimer) { clearTimeout(orderBarAutoCollapseTimer); orderBarAutoCollapseTimer = null; }
+    }
+
+    function setOrderBarExpanded(expanded, silent = false) {
+        state.orderBarExpanded = expanded;
+        orderBar.classList.toggle('expanded', expanded);
+        if (!silent) { playSound('toggle'); haptic(); }
+    }
+
+    function toggleOrderBar() {
+        const btn = orderToggleBtn;
+        btn.classList.add('clicked');
+        setTimeout(() => btn.classList.remove('clicked'), 700);
+        setOrderBarExpanded(!state.orderBarExpanded);
+    }
+
+    function advanceOrderStage(targetStage) {
+        const order = state.currentOrder;
+        if (!order) return;
+        const currentStage = order.stage || 1;
+        if (targetStage <= currentStage) return;
+        if (targetStage < 1 || targetStage > 3) return;
+        order.stage = targetStage;
+        saveState(); updateOrderBar();
+        if (targetStage === 2) { playSound('pop'); haptic(20); showToast(t('statusPreparing')); }
+        else if (targetStage === 3) { playSound('success'); haptic(40); showToast(t('orderReadyTitle')); }
+    }
+
+    function updateOrderBar() {
+        const order = state.currentOrder;
+        if (!order) return;
+        const stage = getOrderStage(order);
+        const titles = { 1: t('orderConfirmed'), 2: t('orderInProgress'), 3: t('orderReadyTitle') };
+        orderBarTitle.innerHTML = `<span>${titles[stage]}</span>${stage < 3 ? '<span class="live-dot"></span>' : ''}`;
+        orderBarSub.textContent = `${order.id} • Table ${order.table} • ₱${order.total}`;
+
+        orderBarStatus.classList.remove('pulsing', 'complete');
+        if (stage === 1 || stage === 2) {
+            orderBarStatus.classList.add('pulsing');
+            orderBarStatusIcon.innerHTML = stage === 1 ? '<polyline points="20 6 9 17 4 12"></polyline>' : '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>';
+        } else {
+            orderBarStatus.classList.add('complete');
+            orderBarStatusIcon.innerHTML = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>';
+        }
+
+        orderBar.querySelectorAll('.order-step').forEach(step => {
+            const n = parseInt(step.dataset.step);
+            step.classList.toggle('complete', n < stage);
+            step.classList.toggle('active', n === stage);
+        });
+
+        const progressPct = stage === 1 ? 0 : stage === 2 ? 50 : 100;
+        orderProgressLine.style.width = `${progressPct * 0.64}%`;
+
+        const messages = { 1: t('etaReceived'), 2: t('etaPreparing'), 3: t('etaReady') };
+        orderEta.innerHTML = stage === 3 ? `🎉 <strong>${messages[3]}</strong>` : messages[stage];
+
+        orderStaffHint.style.display = stage >= 3 ? 'none' : 'flex';
+        orderStaffHint.querySelector('span').textContent = t('staffHint');
+        orderDoneBtn.textContent = stage === 3 ? t('statusDone') : t('hide');
+    }
+
+    function completeOrder() {
+        const order = state.currentOrder;
+        if (!order) return;
+        state.orderHistory.unshift({
+            id: order.id, placedAt: order.placedAt, completedAt: Date.now(),
+            table: order.table, total: order.total, items: order.items
+        });
+        state.orderHistory = state.orderHistory.slice(0, 50);
+        state.currentOrder = null;
+        state.cart = [];
+        saveState();
+        hideOrderBar(true);
+        updateCartBadge();
+        playSound('success'); haptic(30);
+        setTimeout(() => orderBar.classList.remove('dismiss'), 700);
+        showToast(t('orderCompleted'));
+    }
+
+    orderBarHeader.addEventListener('click', (e) => {
+        if (e.target.closest('.order-toggle-btn')) return;
+        toggleOrderBar();
+    });
+    orderToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleOrderBar(); });
+    orderDismissBtn.addEventListener('click', () => {
+        state.orderBarHidden = true; hideOrderBar();
+        playSound('click'); haptic();
+    });
+    orderDoneBtn.addEventListener('click', () => {
+        const stage = getOrderStage(state.currentOrder);
+        if (stage === 3) completeOrder();
+        else setOrderBarExpanded(false);
+    });
+
+    orderTimeline.querySelectorAll('.order-step').forEach(step => {
+        step.addEventListener('click', () => {
+            const targetStage = parseInt(step.dataset.step);
+            const currentStage = getOrderStage(state.currentOrder);
+            if (targetStage > currentStage) advanceOrderStage(targetStage);
+            else haptic(5);
+        });
+    });
+
+    async function shareMenu() {
+        const shareData = { title: 'Aroastotle Cafe', text: 'Check out the Aroastotle Cafe menu!', url: window.location.href };
+        try {
+            if (navigator.share) await navigator.share(shareData);
+            else { await navigator.clipboard.writeText(shareData.url); showToast(t('shared')); }
+            playSound('pop'); haptic();
+        } catch (err) {}
+    }
+
+    function openAdmin() { renderAdmin(); openSheet(adminModal); playSound('open'); haptic(30); }
+
+    function renderAdmin() {
+        const tv = state.analytics.views || 0, to = state.analytics.orders || 0;
+        const ra = Object.values(state.ratings).filter(r => r.count > 0);
+        const avg = ra.length ? (ra.reduce((s, r) => s + r.sum / r.count, 0) / ra.length) : 0;
+        const topItems = Object.entries(state.analytics.itemOrders || {}).sort((a, b) => b[1] - a[1]).slice(0, 5);
+        const allItems = menuData.flatMap(c => c.items.map(i => ({ ...i, catId: c.id })));
+
+        const receiptsHTML = state.orderHistory.length === 0
+            ? `<div class="receipt-empty">${t('noReceipts')}</div>`
+            : state.orderHistory.slice(0, 10).map(order => {
+                const date = new Date(order.placedAt);
+                const dateStr = date.toLocaleDateString() + ' · ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const itemsList = (order.items || []).map(i => {
+                    const cust = []; if (i.size) cust.push(i.size); if (i.addons && i.addons.length) cust.push(i.addons.join(', '));
+                    const c = cust.length ? ` <span style="opacity:0.7">(${cust.join(' • ')})</span>` : '';
+                    return `${i.quantity}× ${i.name}${c}`;
+                }).join('<br>');
+                return `<div class="receipt-card">
+                    <div class="receipt-header"><span class="receipt-id">${order.id}</span><span class="receipt-date">${dateStr}</span></div>
+                    <div class="receipt-details">Table <strong>${order.table}</strong> · Total <span class="receipt-total">₱${order.total}</span></div>
+                    ${itemsList ? `<div class="receipt-items">${itemsList}</div>` : ''}
+                </div>`;
+            }).join('');
+
+        adminContent.innerHTML = `
+            <div class="admin-header"><div class="admin-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 1-4.5 4.5L17.5 20 12 17l-5.5 3L8 13.5 3.5 9l6-1z"></path></svg></div>
+                <div class="admin-header-text"><div class="admin-title">${t('adminPanel')}</div><div class="admin-subtitle">${t('adminSub')}</div></div>
+                <button class="sheet-close" id="admin-close-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value">${tv}</div><div class="stat-label">${t('totalViews')}</div></div>
+                <div class="stat-card"><div class="stat-value">${to}</div><div class="stat-label">${t('totalOrders')}</div></div>
+                <div class="stat-card"><div class="stat-value">${avg ? avg.toFixed(1) : '—'}</div><div class="stat-label">${t('avgRating')}</div></div>
+            </div>
+
+            <div class="admin-section">
+                <div class="admin-section-title">📱 Share Menu via QR</div>
+                <div class="qr-section-card">
+                    <div class="qr-input-row">
+                        <input type="text" class="qr-table-input" id="qr-table-input" placeholder="Table # (optional)" maxlength="10">
+                        <button class="qr-generate-btn" id="qr-generate-btn">GENERATE</button>
+                    </div>
+                    <div class="qr-preview" id="qr-preview"></div>
+                    <div class="qr-hint">Leave table blank for a general menu QR • Enter a number for table-specific codes</div>
+                </div>
+            </div>
+
+            <div class="admin-section"><div class="admin-section-title">${t('receipts')}</div>${receiptsHTML}</div>
+
+            <div class="admin-section"><div class="admin-section-title">${t('topItems')}</div>
+                ${topItems.length === 0 ? `<div style="font-size:0.8rem;color:var(--text-secondary);text-align:center;padding:16px 0;">${t('noData')}</div>` :
+                    topItems.map(([name, count], i) => `<div class="admin-row"><div style="flex:1"><div class="admin-row-name">${i + 1}. ${name}</div></div><div class="admin-row-sub" style="color:var(--accent-gold);font-weight:600;">${count}x</div></div>`).join('')}
+            </div>
+
+            <div class="admin-section"><div class="admin-section-title">${t('availability')}</div>
+                ${allItems.map(item => {
+                    const isAvail = item.available !== false;
+                    return `<div class="admin-row"><div style="flex:1"><div class="admin-row-name">${item.name}</div></div><button class="admin-toggle ${isAvail ? 'on' : ''}" data-toggle="${item.name}"></button></div>`;
+                }).join('')}
+            </div>
+
+            <div class="admin-section"><div class="admin-section-title">${t('dataManagement')}</div>
+                <div class="admin-actions">
+                    <button class="admin-btn" id="export-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>${t('exportData')}</button>
+                    <button class="admin-btn danger" id="reset-btn"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg><span id="reset-label">${t('resetAll')}</span></button>
+                </div>
+            </div>`;
+
+        document.getElementById('admin-close-btn').addEventListener('click', closeAllSheets);
+        adminContent.querySelectorAll('[data-toggle]').forEach(toggle => toggle.addEventListener('click', () => {
+            const name = toggle.dataset.toggle;
+            const cur = state.availability[name];
+            const defaultAvail = menuData.flatMap(c => c.items).find(i => i.name === name)?.available !== false;
+            const isAvail = cur !== undefined ? cur : defaultAvail;
+            state.availability[name] = !isAvail;
+            saveState(); toggle.classList.toggle('on'); playSound('click'); haptic();
+            renderMenuSections();
+        }));
+        document.getElementById('export-btn').addEventListener('click', exportAnalytics);
+        document.getElementById('reset-btn').addEventListener('click', resetAllData);
+        document.getElementById('qr-generate-btn').addEventListener('click', generateQR);
+        document.getElementById('qr-table-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') generateQR();
+        });
+    }
+
+    function exportAnalytics() {
+        const data = {
+            exportedAt: new Date().toISOString(),
+            analytics: state.analytics, ratings: state.ratings, favorites: state.favorites,
+            availability: state.availability, orderHistory: state.orderHistory
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `aroastotle-analytics-${Date.now()}.json`;
+        a.click(); URL.revokeObjectURL(url);
+        showToast(t('analyticsExported')); playSound('success'); haptic();
+    }
+
+    // ============================================
+    // QR CODE GENERATOR
+    // ============================================
+    function generateQR() {
+        const tableInput = document.getElementById('qr-table-input');
+        const table = tableInput.value.trim();
+
+        const baseUrl = window.location.origin + window.location.pathname;
+        const targetUrl = table ? `${baseUrl}?table=${encodeURIComponent(table)}` : baseUrl;
+
+        if (window.location.protocol === 'file:') {
+            showToast('Host online first for QR to work', false);
+            playSound('error');
+            return;
+        }
+
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(targetUrl)}&bgcolor=1A1817&color=C5A059&margin=12&qzone=2`;
+
+        const preview = document.getElementById('qr-preview');
+        preview.classList.add('show');
+        preview.innerHTML = `
+            <img src="${qrApiUrl}" alt="QR Code" crossorigin="anonymous" id="qr-img">
+            <div class="qr-caption">
+                <strong>${table ? 'Table ' + table : 'Scan to view menu'}</strong>
+                ${table ? 'Guests scan → table auto-fills at checkout' : 'Point any phone camera here to open the menu'}
+            </div>
+            <div class="qr-actions">
+                <button class="qr-action-btn qr-action-primary" id="qr-download-btn">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PNG
+                </button>
+                <button class="qr-action-btn qr-action-secondary" id="qr-print-btn">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Print Card
+                </button>
+            </div>
+        `;
+
+        document.getElementById('qr-download-btn').addEventListener('click', () => downloadQRCard(qrApiUrl, table));
+        document.getElementById('qr-print-btn').addEventListener('click', () => printQRCard(qrApiUrl, table, targetUrl));
+
+        playSound('pop'); haptic();
+    }
+
+    async function downloadQRCard(qrApiUrl, table) {
+        try {
+            showToast('Preparing card...');
+            const canvas = document.createElement('canvas');
+            const size = 900;
+            canvas.width = size; canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#1A1817';
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.strokeStyle = 'rgba(197,160,89,0.3)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(30, 30, size - 60, size - 60);
+
+            ctx.strokeStyle = '#C5A059';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(20, 20, size - 40, size - 40);
+
+            ctx.fillStyle = '#F5F5F0';
+            ctx.font = 'italic 68px "Playfair Display", Georgia, serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Aroastotle', size / 2, 130);
+
+            ctx.fillStyle = '#C5A059';
+            ctx.font = '600 20px "Montserrat", sans-serif';
+            ctx.fillText('C A F E', size / 2, 165);
+
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; img.src = qrApiUrl; });
+
+            const qrSize = 460;
+            const qrY = 220;
+            ctx.fillStyle = '#FFFFFF';
+            const r = 20;
+            const qx = (size - qrSize) / 2 - 20;
+            const qy = qrY - 20;
+            const qw = qrSize + 40;
+            const qh = qrSize + 40;
+            ctx.beginPath();
+            ctx.moveTo(qx + r, qy);
+            ctx.arcTo(qx + qw, qy, qx + qw, qy + qh, r);
+            ctx.arcTo(qx + qw, qy + qh, qx, qy + qh, r);
+            ctx.arcTo(qx, qy + qh, qx, qy, r);
+            ctx.arcTo(qx, qy, qx + qw, qy, r);
+            ctx.closePath();
+            ctx.fill();
+            ctx.drawImage(img, (size - qrSize) / 2, qrY, qrSize, qrSize);
+
+            ctx.fillStyle = '#C5A059';
+            ctx.font = 'italic 34px "Playfair Display", Georgia, serif';
+            const caption = table ? `Table ${table}` : 'Scan to View Menu';
+            ctx.fillText(caption, size / 2, qrY + qrSize + 85);
+
+            ctx.fillStyle = '#A0A0A0';
+            ctx.font = '400 18px "Montserrat", sans-serif';
+            ctx.fillText('Point your phone camera here', size / 2, qrY + qrSize + 125);
+
+            ctx.strokeStyle = '#C5A059';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(size / 2 - 40, qrY + qrSize + 155);
+            ctx.lineTo(size / 2 + 40, qrY + qrSize + 155);
+            ctx.stroke();
+
+            canvas.toBlob((blob) => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `aroastotle-qr-${table ? 'table-' + table : 'menu'}.png`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+                showToast('QR card downloaded ✓');
+                playSound('success'); haptic();
+            }, 'image/png');
+        } catch (err) {
+            showToast('Failed to generate card', false);
+            playSound('error');
+        }
+    }
+
+    function printQRCard(qrApiUrl, table, targetUrl) {
+        const w = window.open('', '_blank', 'width=600,height=800');
+        w.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Aroastotle QR — ${table ? 'Table ' + table : 'Menu'}</title>
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+                <style>
+                    @page { size: A6; margin: 0; }
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body { background: #1A1817; color: #F5F5F0; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+                    .card { width: 100%; max-width: 400px; background: #1A1817; border: 3px solid #C5A059; border-radius: 24px; padding: 40px 30px; text-align: center; }
+                    .brand { font-family: 'Playfair Display', serif; font-style: italic; font-size: 42px; color: #F5F5F0; letter-spacing: -1px; }
+                    .brand-sub { font-size: 11px; letter-spacing: 6px; color: #C5A059; margin-top: 2px; font-weight: 600; }
+                    .qr-plate { background: #FFFFFF; border-radius: 16px; padding: 16px; display: inline-block; margin: 28px 0; }
+                    .qr-plate img { display: block; width: 240px; height: 240px; }
+                    .caption { font-family: 'Playfair Display', serif; font-style: italic; font-size: 26px; color: #C5A059; margin-bottom: 8px; }
+                    .instruction { font-size: 13px; color: #A0A0A0; letter-spacing: 0.5px; }
+                    .line { width: 60px; height: 2px; background: #C5A059; margin: 24px auto 0; }
+                    @media print { body { padding: 0; } .card { border-radius: 0; max-width: 100%; } }
+                </style>
+            </head>
+            <body onload="setTimeout(() => window.print(), 800);">
+                <div class="card">
+                    <div class="brand">Aroastotle</div>
+                    <div class="brand-sub">C A F E</div>
+                    <div class="qr-plate"><img src="${qrApiUrl}" alt="QR"></div>
+                    <div class="caption">${table ? 'Table ' + table : 'Scan to View Menu'}</div>
+                    <div class="instruction">Point your phone camera here</div>
+                    <div class="line"></div>
+                </div>
+            </body>
+            </html>
+        `);
+        w.document.close();
+        showToast('Print dialog opening...');
+        playSound('success');
+    }
+
+    function resetAllData() {
+        const btn = document.getElementById('reset-btn');
+        const label = document.getElementById('reset-label');
+        if (btn.dataset.confirming !== '1') {
+            btn.dataset.confirming = '1'; label.textContent = t('resetConfirm');
+            btn.style.borderColor = 'var(--danger)'; btn.style.color = 'var(--danger)';
+            playSound('error');
+            setTimeout(() => {
+                if (btn.dataset.confirming === '1') {
+                    btn.dataset.confirming = '0'; label.textContent = t('resetAll');
+                    btn.style.borderColor = ''; btn.style.color = '';
+                }
+            }, 3000);
+            return;
+        }
+        ['aro-favs', 'aro-cart', 'aro-ratings', 'aro-analytics', 'aro-availability', 'aro-recent', 'aro-table', 'aro-current-order', 'aro-order-history'].forEach(k => localStorage.removeItem(k));
+        showToast(t('dataReset'), false); playSound('success'); haptic(30);
+        setTimeout(() => location.reload(), 800);
+    }
+
+    function openSheet(el) { overlay.classList.add('open'); el.classList.add('open'); document.body.classList.add('no-scroll'); }
+    function closeAllSheets() {
+        overlay.classList.remove('open');
+        [itemSheet, cartDrawer, adminModal].forEach(s => s.classList.remove('open'));
+        document.body.classList.remove('no-scroll');
+    }
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+        const dh = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress.style.width = (dh > 0 ? (window.scrollY / dh) * 100 : 0) + '%';
+        if (window.scrollY > 400) backToTop.classList.add('visible'); else backToTop.classList.remove('visible');
+    });
+
+    backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); playSound('click'); haptic(); });
+    themeToggle.addEventListener('click', toggleTheme);
+    langToggle.addEventListener('click', toggleLanguage);
+    soundToggle.addEventListener('click', toggleSound);
+    musicToggle.addEventListener('click', toggleMusic);
+    shareBtn.addEventListener('click', shareMenu);
+
+    document.addEventListener('pointerdown', startMusicOnFirstInteraction, { once: true });
+    document.addEventListener('keydown', startMusicOnFirstInteraction, { once: true });
+
+    brandLogo.addEventListener('click', () => {
+        playBrandAnimation();
+        state.logoTapCount++;
+        clearTimeout(state.logoTapTimer);
+        state.logoTapTimer = setTimeout(() => { state.logoTapCount = 0; }, 600);
+        if (state.logoTapCount >= 3) { state.logoTapCount = 0; openAdmin(); }
+    });
+
+    navTabsContainer.addEventListener('click', (e) => {
+        const tab = e.target.closest('.nav-tab'); if (!tab) return;
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.category;
+        state.currentCategory = cat;
+        if (state.searchQuery) {
+            searchInput.value = ''; state.searchQuery = ''; searchClear.classList.remove('visible');
+            const s = document.getElementById('search-results'); if (s) s.remove();
+        }
+        if (cat === 'favorites') renderFavorites();
+        document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(cat);
+        if (target) {
+            target.classList.add('active');
+            target.querySelectorAll('.menu-item').forEach((el, i) => {
+                el.style.animation = 'none'; el.offsetHeight;
+                el.style.animation = `itemIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) ${i * 0.04}s backwards`;
+            });
+        }
+        const navHeight = document.getElementById('category-nav').offsetHeight;
+        const menuTop = menuContainer.getBoundingClientRect().top + window.scrollY - navHeight - 10;
+        window.scrollTo({ top: menuTop, behavior: 'smooth' });
+        playSound('click'); haptic();
+    });
+
+    menuContainer.addEventListener('click', (e) => {
+        const favBtn = e.target.closest('.fav-btn');
+        if (favBtn) {
+            e.stopPropagation();
+            toggleFavorite(favBtn.dataset.fav);
+            favBtn.classList.toggle('active');
+            if (state.currentCategory === 'favorites') renderFavorites();
+            return;
+        }
+        const itemEl = e.target.closest('.menu-item');
+        if (itemEl && !itemEl.classList.contains('sold-out')) openItemSheet(itemEl.dataset.item, itemEl.dataset.cat);
+    });
+
+    overlay.addEventListener('click', closeAllSheets);
+    cartFab.addEventListener('click', () => { renderCart(); openSheet(cartDrawer); playSound('open'); haptic(); });
+
+    searchToggle.addEventListener('click', () => {
+        searchWrapper.classList.toggle('open');
+        if (searchWrapper.classList.contains('open')) setTimeout(() => searchInput.focus(), 300);
+        playSound('click'); haptic();
+    });
+    searchInput.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        if (state.searchQuery) searchClear.classList.add('visible'); else searchClear.classList.remove('visible');
+        renderSearchResults(state.searchQuery);
+    });
+    searchClear.addEventListener('click', () => {
+        searchInput.value = ''; state.searchQuery = ''; searchClear.classList.remove('visible');
+        renderSearchResults(''); searchInput.focus();
+    });
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAllSheets(); });
+
+    if (state.currentOrder && !state.orderBarHidden) {
+        setTimeout(() => {
+            updateOrderBar(); showOrderBar();
+            const stage = getOrderStage(state.currentOrder);
+            if (stage < 3) showToast(`Order ${state.currentOrder.id} is in progress`);
+        }, 1800);
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); state.deferredPrompt = e;
+        if (!localStorage.getItem('aro-install-dismissed')) setTimeout(() => installBanner.classList.add('show'), 3000);
+    });
+    document.getElementById('install-btn').addEventListener('click', async () => {
+        if (!state.deferredPrompt) return;
+        state.deferredPrompt.prompt();
+        const { outcome } = await state.deferredPrompt.userChoice;
+        if (outcome === 'accepted') showToast('App installed');
+        state.deferredPrompt = null; installBanner.classList.remove('show');
+    });
+    document.getElementById('install-dismiss').addEventListener('click', () => {
+        installBanner.classList.remove('show');
+        localStorage.setItem('aro-install-dismissed', '1');
+    });
+
+    const manifest = {
+        name: 'Aroastotle Cafe', short_name: 'Aroastotle', description: 'Premium cafe menu',
+        start_url: '.', display: 'standalone', background_color: '#1A1817', theme_color: '#C5A059', orientation: 'portrait',
+        icons: [{ src: 'data:image/svg+xml;base64,' + btoa(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#1A1817"/><text x="96" y="125" font-family="Georgia,serif" font-style="italic" font-size="90" fill="#C5A059" text-anchor="middle">A</text></svg>`), sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' }]
+    };
+    const manifestURL = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
+    const mLink = document.createElement('link');
+    mLink.rel = 'manifest'; mLink.href = manifestURL;
+    document.head.appendChild(mLink);
+
+    function init() {
+        applyTheme(state.theme);
+        splitBrandLetters();
+        langToggle.textContent = state.language === 'en' ? 'EN' : 'TL';
+        soundToggle.classList.toggle('muted', !state.soundEnabled);
+        musicToggle.classList.toggle('muted', !state.musicEnabled);
+        bgMusic.volume = 0.35;
+        if (state.musicEnabled) {
+            bgMusic.play().then(() => musicToggle.classList.add('playing')).catch(() => {});
+        }
+
+        renderNavTabs(); renderMenuSections(); renderAddOns();
+        renderRecentlyViewed(); updateCartBadge();
+        applyLanguage(state.language);
+        observeScrollReveals();
+
+        if (state.tableNumber) {
+            tableBadge.textContent = `Table ${state.tableNumber}`;
+            tableBadge.classList.add('show');
+            setTimeout(() => {
+                showToast(`Welcome! Table ${state.tableNumber}`);
+                playSound('success');
+            }, 1800);
+        }
+
+        setTimeout(() => loader.classList.add('hidden'), 1400);
+    }
+    init();
+});
+</script>
+</body>
+</html>
